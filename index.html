@@ -1,0 +1,5107 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>優待クロスで世界を救う系ゲーム</title>
+    <!-- Twemoji CDN (更新版) -->
+    <script src="https://cdn.jsdelivr.net/npm/twemoji@latest/dist/twemoji.min.js"></script>
+
+    <!-- ========== ブロック1 始点 ========== -->
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+        }
+
+        /* ========== タイトル画面 ========== */
+        #title-screen {
+            display: block;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        .main-container {
+            padding: 15px;
+            max-width: 100%;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+
+        .login-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .game-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .form-row {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .form-row:last-child {
+            border-bottom: none;
+        }
+
+        .form-label {
+            width: 90px;
+            min-width: 90px;
+            font-size: 15px;
+            color: #333;
+            font-weight: 500;
+            white-space: nowrap;
+            margin-right: 8px;
+        }
+
+        .form-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-right: 8px;
+            background: #f5f5f5;
+            color: #666;
+            min-width: 0;
+            box-sizing: border-box;
+        }
+
+        .save-icon {
+            font-size: 18px;
+        }
+
+        .start-btn {
+            width: 100%;
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .start-btn::after {
+            content: '▶';
+            font-size: 16px;
+        }
+
+        /* マシュマロリンク */
+        .marshmallow-link {
+            background: white;
+            border: 2px solid #e91e63;
+            color: #e91e63;
+            padding: 15px;
+            border-radius: 10px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 20px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .marshmallow-link:hover {
+            background: #fce4ec;
+        }
+
+        /* 名前入力トグル機能 */
+        .toggle-icon {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .toggle-icon:hover {
+            transform: scale(1.1);
+        }
+
+        /* 情報タブナビゲーション */
+        .info-tab-navigation {
+            display: flex;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px 8px 0 0;
+            margin-top: 20px;
+        }
+
+        .info-tab-button {
+            flex: 1;
+            padding: 12px 8px;
+            border: none;
+            background: transparent;
+            color: #666;
+            font-size: 14px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: bold;
+        }
+
+        .info-tab-button.active {
+            color: #2196f3;
+            border-bottom-color: #2196f3;
+            background: #f8f9fa;
+        }
+
+        .info-tab-button:hover {
+            background: #f0f0f0;
+        }
+
+        /* 情報タブコンテンツ */
+        .info-tab-content-container {
+            background: white;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            min-height: 400px;
+        }
+
+        .info-tab-content {
+            display: none;
+            padding: 20px;
+        }
+
+        .info-tab-content.active {
+            display: block;
+        }
+
+        /* note埋め込み調整 */
+        .note-container {
+            margin-top: 0;
+        }
+
+        .note-container iframe {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        /* ランキング表示 */
+        .ranking-container {
+            text-align: center;
+        }
+
+        .ranking-title {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .ranking-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .ranking-item {
+            display: grid;
+            grid-template-columns: 60px 1fr 100px;
+            align-items: center;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .ranking-item.rank-1 {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            font-weight: bold;
+            color: #333;
+            box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+        }
+
+        .rank {
+            font-weight: bold;
+            color: #666;
+        }
+
+        .rank-1 .rank {
+            color: #333;
+        }
+
+        .player-name {
+            text-align: left;
+            font-weight: 500;
+        }
+
+        .score {
+            text-align: right;
+            font-weight: bold;
+            color: #4caf50;
+        }
+
+        .rank-1 .score {
+            color: #333;
+        }
+
+        /* ========== メインゲーム画面 ========== */
+        #game-screen {
+            display: none;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .game-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: #f0f0f0;
+        }
+
+        /* 上部ヘッダー */
+        .game-header {
+            background: #f0f0f0;
+            padding: 10px 15px;
+            display: grid;
+            grid-template-columns: 2fr 3fr;
+            gap: 10px;
+            align-items: center;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .header-left {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2px;
+        }
+
+        .username-display {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .user-id-display {
+            font-size: 12px;
+            color: #666;
+            font-weight: normal;
+        }
+
+        .header-right {
+            display: grid;
+            grid-template-rows: 1fr 1fr 1fr;
+            grid-template-columns: 1fr;
+            font-size: 11px;
+            line-height: 1.3;
+            gap: 2px;
+        }
+
+        .header-row-1 {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .header-row-2,
+        .header-row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .cash-amount,
+        .premium-coin,
+        .rice-amount,
+        .favo-amount,
+        .follower-amount {
+            color: #333;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        /* タブナビゲーション */
+        .tab-navigation {
+            display: flex;
+            background: white;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 10px 5px;
+            border: none;
+            background: white;
+            color: #666;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tab-button.active {
+            background: #87ceeb;
+            color: white;
+            font-weight: bold;
+        }
+
+        .tab-button:hover:not(.active) {
+            background: #f0f0f0;
+        }
+
+        /* タブコンテンツエリア */
+        #tab-content-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tab-content {
+            display: none;
+            flex: 1;
+            flex-direction: column;
+        }
+
+        .tab-content.active {
+            display: flex;
+        }
+
+        /* 株注文タブ専用スタイル */
+        .server-hp-container {
+            background: white;
+            padding: 8px 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .server-hp-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .server-hp-bar {
+            width: 100%;
+            height: 15px;
+            background: #e0e0e0;
+            border-radius: 7px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .server-hp-fill {
+            height: 100%;
+            transition: width 0.3s ease, background 0.3s ease;
+        }
+
+        .server-hp-fill.high {
+            background: linear-gradient(90deg, #4caf50, #8bc34a);
+        }
+
+        .server-hp-fill.medium {
+            background: linear-gradient(90deg, #ff9800, #ffc107);
+        }
+
+        .server-hp-fill.low {
+            background: linear-gradient(90deg, #f44336, #e57373);
+        }
+
+        .main-game-area {
+            flex: 1;
+            background: white;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .center-area {
+            flex: 1;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px;
+        }
+
+        .main-order-btn {
+            background: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 20px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+            z-index: 1000;
+            position: relative;
+        }
+
+        .main-order-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+        }
+
+        /* ポップアップ演出 */
+        .result-popup {
+            position: absolute;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            pointer-events: none;
+            z-index: 999;
+            width: 200px !important;
+            min-width: 200px !important;
+            max-width: 200px !important;
+            text-align: center;
+            line-height: 1.3;
+            opacity: 1;
+            overflow: hidden;
+            white-space: normal;
+            animation: fadeOut ease-out forwards;
+        }
+
+        .result-popup.success {
+            background: white;
+            color: #2196f3;
+            border: 2px solid #87ceeb;
+        }
+
+        .result-popup.failure {
+            background: white;
+            color: #e74c3c;
+            border: 2px solid #e74c3c;
+        }
+
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+        }
+
+        .credit-margin-container {
+            background: white;
+            padding: 8px 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .credit-margin-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .credit-margin-bar {
+            width: 100%;
+            height: 15px;
+            background: #e0e0e0;
+            border-radius: 7px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .credit-margin-fill {
+            height: 100%;
+            transition: width 0.3s ease, background 0.3s ease;
+        }
+
+        .credit-margin-fill.positive {
+            background: linear-gradient(90deg, #87ceeb, #5dade2);
+        }
+
+        .credit-margin-fill.warning {
+            background: linear-gradient(90deg, #f1c40f, #f39c12);
+        }
+
+        .credit-margin-fill.orange {
+            background: linear-gradient(90deg, #e67e22, #d35400);
+        }
+
+        .credit-margin-fill.negative {
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+        }
+
+        .credit-margin-fill.danger {
+            background: linear-gradient(90deg, #8b0000, #660000);
+        }
+
+        .credit-margin-fill.critical {
+            background: linear-gradient(90deg, #2c3e50, #1a252f);
+        }
+
+        .bottom-tab-controls {
+            display: grid;
+            grid-template-columns: 1fr 2fr 2fr 1fr;
+            gap: 8px;
+            padding: 10px 15px;
+            background: white;
+            border-top: 1px solid #ddd;
+        }
+
+        .bottom-tab-btn {
+            padding: 8px 6px;
+            border: none;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            line-height: 1.1;
+            transition: all 0.2s ease;
+        }
+
+        .bottom-tab-btn.bot-adjust {
+            background: white;
+            color: #ff9800;
+            border: 2px solid #ff9800;
+        }
+
+        .bottom-tab-btn.order-list {
+            background: white;
+            color: #2196f3;
+            border: 2px solid #2196f3;
+        }
+
+        .bottom-tab-btn.active {
+            opacity: 0.8;
+            transform: translateY(1px);
+        }
+
+        .bot-toggle-btn {
+            padding: 8px 6px;
+            border: none;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            line-height: 1;
+            background: #e74c3c;
+            color: white;
+            transition: all 0.2s ease;
+        }
+
+        .bot-toggle-btn.active {
+            background: #4caf50;
+        }
+
+        .unified-display-area {
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border-top: 1px solid #ddd;
+            font-size: 12px;
+        }
+
+        .display-content {
+            display: none;
+        }
+
+        .display-content.active {
+            display: block;
+        }
+
+        .status-display {
+            display: grid;
+            grid-template-rows: auto auto;
+            gap: 8px;
+            min-height: 45px;
+            /* BOT調整タブとの高さ統一のため */
+        }
+
+        .status-row-top {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .status-row-bottom {
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #333;
+        }
+
+        .status-label {
+            color: #666;
+        }
+
+        .status-value {
+            font-weight: bold;
+        }
+
+        .gacha-btn-unified {
+            background: #ff5722;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 6px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            width: 100%;
+            transition: background 0.3s ease;
+        }
+
+        .gacha-btn-unified.disabled {
+            background: #cccccc !important;
+            cursor: not-allowed !important;
+        }
+
+        .gacha-btn-unified.yellow {
+            background: #ffc107 !important;
+            color: #333;
+        }
+
+        .gacha-btn-unified.apology {
+            background: #87ceeb !important;
+            color: white;
+        }
+
+        .gacha-btn-unified.pink {
+            background: #F78FA7 !important;
+            color: white;
+            animation: glow-pulse 1s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow-pulse {
+            from {
+                box-shadow: 0 2px 8px rgba(247, 143, 167, 0.4);
+            }
+
+            to {
+                box-shadow: 0 4px 16px rgba(247, 143, 167, 0.8);
+            }
+        }
+
+        .main-order-btn.disabled {
+            background: #cccccc !important;
+            cursor: not-allowed !important;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        /* ガチャ結果ポップアップ */
+        .gacha-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .gacha-result-popup {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            z-index: 2000;
+            animation: luxuryAppear 0.6s ease forwards;
+            position: relative;
+        }
+
+        @keyframes luxuryAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) rotate(-5deg);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(1.1) rotate(2deg);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .gacha-result-title {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            background: #87ceeb;
+            margin: -20px -20px 15px -20px;
+            padding: 15px 20px;
+            border-radius: 15px 15px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gacha-result-title::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+            animation: sparkle 2s linear infinite;
+        }
+
+        .gacha-result-section {
+            margin-bottom: 12px;
+        }
+
+        .gacha-rarity-header {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .rarity-a {
+            color: #ff6b35;
+        }
+
+        .rarity-b {
+            color: #4ecdc4;
+        }
+
+        .rarity-c {
+            color: #95a5a6;
+        }
+
+        .gacha-item-list {
+            margin-left: 15px;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .gacha-item {
+            color: #555;
+            margin-bottom: 3px;
+        }
+
+        .gacha-close-hint {
+            text-align: center;
+            font-size: 11px;
+            color: #999;
+            margin-top: 15px;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 10px;
+        }
+
+        @keyframes sparkle {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* インベントリ表示エリア */
+        .inventory-display {
+            padding: 8px 15px;
+            background: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+            font-size: 11px;
+            color: #666;
+        }
+
+        .inventory-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .inventory-list {
+            line-height: 1.4;
+            color: #777;
+        }
+
+        /* BOT調整モード選択ボタン */
+        .bot-mode-selector {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            font-size: 11px;
+            min-height: 45px;
+            /* 注文約定一覧(.status-display)の高さに合わせる */
+            align-items: center;
+            /* ボタンを中央に配置 */
+        }
+
+        .bot-mode-btn {
+            background: white;
+            color: #333;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            padding: 12px 4px;
+            font-size: 9px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .bot-mode-btn:hover {
+            background: #f0f0f0;
+            border-color: #ccc;
+        }
+
+        .bot-mode-btn.active {
+            background: #ffcccb;
+            color: #333;
+            border-color: #ff9999;
+        }
+
+        .debug-controls {
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border-top: 2px solid #e74c3c;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .debug-btn {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            color: #333;
+            font-size: 11px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .debug-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .debug-btn.increase {
+            border-color: #e74c3c;
+            color: #e74c3c;
+        }
+
+        .debug-btn.decrease {
+            border-color: #27ae60;
+            color: #27ae60;
+        }
+
+        .debug-btn.reset {
+            border-color: #3498db;
+            color: #3498db;
+        }
+
+        /* ミッションタブ専用スタイル */
+        .mission-tab-content {
+            padding: 15px;
+            background: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .mission-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .mission-title {
+            font-size: 15px;
+            font-weight: normal;
+            color: #666;
+        }
+
+        .refresh-btn {
+            background: #87ceeb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .refresh-btn:hover {
+            background: #5dade2;
+        }
+
+        .mission-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .mission-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .mission-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .mission-content {
+            color: #333;
+            font-size: 12px;
+            line-height: 1.4;
+            margin-bottom: 5px;
+            white-space: pre-line;
+        }
+
+        .mission-stats {
+            display: flex;
+            gap: 15px;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .mission-stat {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .loading-message {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            padding: 20px;
+        }
+
+        .error-message {
+            text-align: center;
+            color: #e74c3c;
+            font-size: 14px;
+            padding: 20px;
+        }
+
+        /* ミッション4状態のスタイル */
+        .mission-state-unaccepted {
+            background: white;
+        }
+
+        .mission-state-progress {
+            background: #e3f2fd;
+        }
+
+        .mission-state-complete {
+            background: #fff3e0;
+            animation: glow-pulse 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow-pulse {
+            from {
+                box-shadow: 0 2px 8px rgba(255, 152, 0, 0.3);
+            }
+
+            to {
+                box-shadow: 0 4px 16px rgba(255, 152, 0, 0.6);
+            }
+        }
+
+        .mission-state-claimed {
+            background: #f5f5f5;
+            opacity: 0.7;
+        }
+
+        /* ミッション詳細レイアウト */
+        .mission-details {
+            display: flex;
+            flex-direction: column;
+            margin: 10px 0;
+            font-size: 12px;
+        }
+
+        .mission-requirement {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .mission-reward {
+            color: #FF9800;
+            font-weight: bold;
+        }
+
+        .mission-requirement {
+            color: #4caf50;
+            font-weight: bold;
+        }
+
+        /* ミッションアクション */
+        .mission-actions {
+            display: grid;
+            grid-template-columns: 2fr 3fr;
+            gap: 10px;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .mission-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .mission-btn-accept {
+            background: #4caf50;
+            color: white;
+        }
+
+        .mission-btn-accept:hover {
+            background: #45a049;
+        }
+
+        .mission-btn-claim {
+            background: #ff9800;
+            color: white;
+        }
+
+        .mission-btn-claim:hover {
+            background: #f57c00;
+        }
+
+        .mission-btn-disabled {
+            background: #e0e0e0;
+            color: #999;
+            cursor: not-allowed;
+        }
+
+        .mission-time {
+            background: #87ceeb;
+            color: white;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 500;
+            border-radius: 6px;
+            padding: 8px 12px;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mission-difficulty {
+            color: #ff9800;
+            margin-left: 5px;
+        }
+
+        /* ミッション内タブナビゲーション */
+        .mission-tab-navigation {
+            display: flex;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: 0;
+        }
+
+        .mission-tab-button {
+            flex: 1;
+            padding: 12px 8px;
+            border: none;
+            background: transparent;
+            color: #666;
+            font-size: 14px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: bold;
+        }
+
+        .mission-tab-button.active {
+            color: #2196f3;
+            border-bottom-color: #2196f3;
+            background: #f8f9fa;
+        }
+
+        .mission-tab-button:hover {
+            background: #f0f0f0;
+        }
+
+        .mission-tab-content-container {
+            background: white;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            padding: 15px;
+        }
+
+        /* Twemoji絵文字サイズ調整 */
+        img.emoji {
+            height: 1.2em;
+            width: 1.2em;
+            vertical-align: -0.1em;
+        }
+
+        /* PC表示対応 */
+        @media (min-width: 768px) {
+            body {
+                display: flex;
+                justify-content: center;
+                background: #ddd;
+                margin: 0;
+                padding: 0;
+                gap: 20px;
+                align-items: flex-start;
+            }
+
+            #title-screen,
+            #game-screen {
+                max-width: 375px;
+                width: 375px;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+                min-height: 100vh;
+            }
+        }
+
+        /* ========== 株主優待独立ボタン専用CSS（追加） ========== */
+        .upgrade-button-area {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .upgrade-button {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .upgrade-button.orange {
+            background: white;
+            color: #ff9800;
+            border-color: #ff9800;
+        }
+
+        .upgrade-button.orange:hover {
+            background: #fff3e0;
+        }
+
+        .upgrade-button.orange.active {
+            background: #ff9800;
+            color: white;
+        }
+
+        .upgrade-button.blue {
+            background: white;
+            color: #87ceeb;
+            border-color: #87ceeb;
+        }
+
+        .upgrade-button.blue:hover {
+            background: #f0f8ff;
+        }
+
+        .upgrade-button.blue.active {
+            background: #87ceeb;
+            color: white;
+        }
+
+        .upgrade-content-container {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            min-height: 400px;
+            padding: 0px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .upgrade-content {
+            display: none;
+        }
+
+        .upgrade-content.active {
+            display: block;
+        }
+
+        /* ========== アップグレードUI専用CSS========== */
+        /* 上部詳細カード */
+        .upgrade-detail-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+            margin-bottom: 10px;
+        }
+
+        .upgrade-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .upgrade-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .upgrade-level {
+            background: #87ceeb;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .upgrade-description {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.4;
+            margin-bottom: 10px;
+            height: 45px;
+            overflow: hidden;
+        }
+
+        .upgrade-effect {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border-left: 4px solid #87ceeb;
+        }
+
+        .upgrade-effect-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .upgrade-effect-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+        }
+
+        .upgrade-cost-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .upgrade-cost {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .cost-value {
+            font-weight: bold;
+            color: #ff9800;
+        }
+
+        .upgrade-action-button {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .upgrade-action-button:hover {
+            background: #45a049;
+        }
+
+        .upgrade-action-button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+
+        /* 下部選択グリッド、padding下の余白注意ね */
+        .upgrade-grid-container {
+            background: white;
+            border-radius: 10px;
+            padding: 10px 10px 30px 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .grid-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #666;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .upgrade-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: repeat(4, 1fr);
+            gap: 6px;
+            height: 280px;
+        }
+
+        .upgrade-item {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .upgrade-item:hover {
+            border-color: #87ceeb;
+            background: #f0f8ff;
+        }
+
+        .upgrade-item.selected {
+            border-color: #87ceeb;
+            background: #e3f2fd;
+            box-shadow: 0 2px 8px rgba(135, 206, 235, 0.3);
+        }
+
+        .upgrade-icon-level {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 4px;
+        }
+
+        .upgrade-icon {
+            font-size: 18px;
+        }
+
+        .upgrade-item-level {
+            font-size: 9px;
+            color: #666;
+            font-weight: bold;
+        }
+
+        .upgrade-name {
+            font-size: 10px;
+            font-weight: bold;
+            color: #333;
+            line-height: 1.2;
+            margin-bottom: 2px;
+        }
+
+        .upgrade-max-level {
+            font-size: 8px;
+            color: #999;
+            font-weight: normal;
+        }
+
+
+        /* サンプル表示用（後で削除予定） */
+        .content-sample {
+            text-align: center;
+            padding: 50px 20px;
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .content-sample h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .content-sample p {
+            margin-bottom: 10px;
+        }
+
+        /* ========== 汎用ポップアップシステム CSS（追加） ========== */
+        /* 基本ポップアップ（既存のガチャ用を流用） */
+        .universal-popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .universal-popup {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            width: 300px;
+            max-width: 90%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            z-index: 2000;
+            animation: luxuryAppear 0.6s ease forwards;
+            position: relative;
+            text-align: center;
+        }
+
+        .universal-popup-title {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            margin: -20px -20px 15px -20px;
+            padding: 15px 20px;
+            border-radius: 15px 15px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .universal-popup-title::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+            animation: sparkle 2s linear infinite;
+        }
+
+        .universal-popup-content {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .universal-popup-close-hint {
+            text-align: center;
+            font-size: 11px;
+            color: #999;
+            margin-top: 15px;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 10px;
+        }
+
+        /* 色バリエーション */
+        .popup-gacha .universal-popup-title {
+            background: #87ceeb;
+            /* 水色 - ガチャ用 */
+        }
+
+        .popup-success .universal-popup-title {
+            background: #4caf50;
+            /* 緑色 - アップグレード用 */
+        }
+
+        .popup-error .universal-popup-title {
+            background: #e74c3c;
+            /* 赤色 - エラー用 */
+        }
+
+        .popup-warning .universal-popup-title {
+            background: #ff9800;
+            /* オレンジ色 - ミッション用 */
+        }
+
+        /* ========== アイテム一覧タブ専用CSS（追加） ========== */
+        /* 詳細カード */
+        .item-detail-card {
+            background: white;
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 0;
+        }
+
+        .item-detail-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .item-detail-emoji {
+            font-size: 40px;
+            min-width: 50px;
+            text-align: center;
+            animation: heartbeat 0.8s ease-in-out infinite;
+        }
+
+        .item-detail-emoji.glow-s {
+            animation: rainbow 1s linear infinite, heartbeat 1.5s ease-in-out infinite;
+        }
+
+        .item-detail-info {
+            flex: 1;
+        }
+
+        .item-detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .item-detail-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .item-detail-rarity {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .item-detail-value {
+            font-size: 14px;
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .item-detail-count {
+            font-size: 14px;
+            color: #666;
+            font-weight: bold;
+        }
+
+        .item-detail-memo {
+            background: #f8f9fa;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #555;
+            line-height: 1.3;
+            border-left: 3px solid #87ceeb;
+        }
+
+        /* アイテム一覧のフィルタ */
+        .filter-container {
+            padding: 15px;
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+            overflow-x: auto;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 4px;
+            width: 100%;
+        }
+
+        .filter-tab {
+            flex: 1;
+            padding: 8px 4px;
+            border: 2px solid #87ceeb;
+            border-radius: 8px;
+            background: white;
+            color: #87ceeb;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .filter-tab.active {
+            background: #87ceeb;
+            color: white;
+        }
+
+        /* アイテムグリッド */
+        .item-grid-container {
+            background: white;
+            padding: 15px;
+            min-height: 400px;
+        }
+
+        .grid-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .item-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+        }
+
+        .grid-item {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+            padding: 0 4px;
+            min-height: 40px;
+        }
+
+        /* 1行目：絵文字と所持数 */
+        .item-row-1 {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 24px;
+        }
+
+        .grid-item-emoji {
+            position: absolute;
+            top: 50%;
+            left: 2px;
+            transform: translateY(-50%);
+            font-size: 18px;
+        }
+
+        .grid-item-count {
+            position: absolute;
+            bottom: 0;
+            right: 2px;
+            font-size: 9px;
+            font-weight: bold;
+            color: #666;
+        }
+
+        /* 2行目：アイテム名 */
+        .item-row-2 {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .grid-item-name {
+            font-size: 7px;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.1;
+            color: #333;
+        }
+
+
+        /* アイテム用レアリティ色（既存のupgrade用と区別） */
+        .item-detail-rarity.rarity-s,
+        .grid-item.rarity-s {
+            background: #FBB8CA;
+            border-color: #FBB8CA;
+            color: #333;
+        }
+
+        .item-detail-rarity.rarity-a,
+        .grid-item.rarity-a {
+            background: #FFE0B3;
+            border-color: #FFE0B3;
+            color: #333;
+        }
+
+        .item-detail-rarity.rarity-b,
+        .grid-item.rarity-b {
+            background: #CCE5FF;
+            border-color: #CCE5FF;
+            color: #333;
+        }
+
+        .item-detail-rarity.rarity-c,
+        .grid-item.rarity-c {
+            background: white;
+            border-color: #e0e0e0;
+            color: #666;
+        }
+
+        /* Cランクバッジ用調整 */
+        .item-detail-rarity.rarity-c {
+            background: #e0e0e0;
+            color: #666;
+        }
+
+        .grid-item.selected {
+            border-color: #333333 !important;
+            border-width: 2px;
+        }
+
+        .grid-item-emoji {
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+
+        .grid-item-count {
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .grid-item.not-owned {
+            background: #e0e0e0 !important;
+            border-color: #e0e0e0 !important;
+            color: #999 !important;
+        }
+
+        /* アニメーション */
+        @keyframes rainbow {
+            0% {
+                filter: hue-rotate(0deg);
+            }
+
+            100% {
+                filter: hue-rotate(360deg);
+            }
+        }
+
+        @keyframes heartbeat {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* ========== ミッションカードの統一レイアウト用CSS（追加） ========== */
+        /* コンパクトヘッダー */
+        .mission-card-header-compact {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            padding: 0 2px;
+        }
+
+        /* アバター（固定幅） */
+        .mission-avatar-small {
+            font-size: 12px;
+            min-width: 26px;
+            width: 26px;
+            text-align: center;
+            flex-shrink: 0;
+            animation: heartbeat 1.2s ease-in-out infinite;
+        }
+
+        /* 名前（本文サイズに調整） */
+        .mission-name-small {
+            font-weight: bold;
+            color: #333;
+            font-size: 12px;
+            flex-shrink: 0;
+            max-width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* ハンドル */
+        .mission-handle-small {
+            color: #666;
+            font-size: 11px;
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            min-width: 0;
+        }
+
+        /* 難易度（中央揃え） */
+        .mission-difficulty-small {
+            font-size: 12px;
+            flex-shrink: 0;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        /* 旧ヘッダーを無効化（念のため） */
+        .mission-card-header {
+            display: none !important;
+        }
+
+        /* 絵文字サイズ統一調整 */
+        .mission-avatar-small img.emoji {
+            height: 20px;
+            width: 20px;
+            animation: heartbeat 1.2s ease-in-out infinite;
+        }
+
+
+        /* ========== 統一改行ルール用CSS（追加） ========== */
+        .mission-content,
+        .item-detail-memo,
+        .upgrade-description {
+            white-space: pre-line;
+        }
+    </style>
+</head>
+
+<!-- ========== ブロック1 終点 ========== -->
+
+<!-- ========== ブロック2 始点 ========== -->
+
+<body>
+    <!-- ========== タイトル画面 ========== -->
+    <div id="title-screen">
+        <div class="main-container">
+            <div class="login-header">
+                <div class="game-title">Yutai-X simulation</div>
+            </div>
+
+            <div class="form-container">
+                <div class="form-row">
+                    <div class="form-label">バージョン</div>
+                    <input type="text" class="form-input" value="Beta Edition ver0.20" disabled>
+                    <span class="save-icon">✅</span>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">ユーザーID</div>
+                    <input type="text" class="form-input" value="tomochi-fun" disabled>
+                    <span class="save-icon">💾</span>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">お名前</div>
+                    <input type="text" class="form-input" id="name-input" placeholder="お名前（任意）" maxlength="10">
+                    <span class="save-icon toggle-icon" id="name-toggle">📝</span>
+                </div>
+
+                <button class="start-btn" id="start-button">ゲーム開始</button>
+            </div>
+
+            <div class="marshmallow-link" id="marshmallow-link">
+                🩷開発者に愛のマシュマロを贈る🩷
+            </div>
+
+            <!-- タブナビゲーション -->
+            <div class="info-tab-navigation">
+                <button class="info-tab-button active" data-info-tab="news">お知らせ📄</button>
+                <button class="info-tab-button" data-info-tab="ranking">ランキング👑</button>
+            </div>
+
+            <!-- タブコンテンツ -->
+            <div class="info-tab-content-container">
+                <!-- お知らせタブ -->
+                <div class="info-tab-content active" id="info-tab-news">
+                    <!-- note埋め込み -->
+                    <div class="note-container">
+                        <iframe class="note-embed" src="https://note.com/embed/notes/n824e5412f6bf"
+                            style="border: 0; display: block; max-width: 100%; width: 100%; padding: 0px; margin: 10px 0px; position: static; visibility: visible;"
+                            height="400"></iframe>
+                    </div>
+                </div>
+
+                <!-- ランキングタブ -->
+                <div class="info-tab-content" id="info-tab-ranking">
+                    <div class="ranking-container">
+                        <h3 class="ranking-title">🏆 全国ランキング</h3>
+                        <div class="ranking-list">
+                            <div class="ranking-item rank-1">
+                                <span class="rank">1位</span>
+                                <span class="player-name">あなた</span>
+                                <span class="score">1,250,000,000円</span>
+                            </div>
+                            <div class="ranking-item">
+                                <span class="rank">2位</span>
+                                <span class="player-name">優待マスター</span>
+                                <span class="score">980,000,000円</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== メインゲーム画面 ========== -->
+    <div id="game-screen">
+        <div class="game-container">
+            <!-- 上部ヘッダー -->
+            <div class="game-header">
+                <div class="header-left">
+                    <div class="username-display" id="header-username">ともちぃさん</div>
+                    <div class="user-id-display" id="header-userid">tomochi-fun</div>
+                </div>
+                <div class="header-right">
+                    <div class="header-row-1">
+                        <div class="cash-amount">
+                            現金💴<span id="header-cash">10,000,000</span>円
+                        </div>
+                    </div>
+                    <div class="header-row-2">
+                        <div class="rice-amount">
+                            お米🍙<span id="header-rice">0</span>kg
+                        </div>
+                        <div class="premium-coin">
+                            PTC🪙<span id="header-premium">450</span>枚
+                        </div>
+                    </div>
+                    <div class="header-row-3">
+                        <div class="favo-amount">
+                            はぁと💕<span id="header-favo">0</span>件
+                        </div>
+                        <div class="follower-amount">
+                            議決権📜<span id="header-voting">0</span>個
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- タブナビゲーション -->
+            <nav class="tab-navigation">
+                <button class="tab-button active" data-tab="stocks">株注文</button>
+                <button class="tab-button" data-tab="bot">株主優待</button>
+                <button class="tab-button" data-tab="mission">SNS</button>
+                <button class="tab-button" data-tab="yuutai">実績</button>
+                <button class="tab-button" data-tab="settings">設定</button>
+            </nav>
+
+            <!-- タブコンテンツエリア -->
+            <div id="tab-content-area">
+                <!-- 株注文タブの内容 -->
+                <div id="stocks-content" class="tab-content active">
+                    <!-- サーバーHPバー -->
+                    <div class="server-hp-container">
+                        <div class="server-hp-label">サーバーHP</div>
+                        <div class="server-hp-bar">
+                            <div class="server-hp-fill" id="server-hp-fill"></div>
+                        </div>
+                    </div>
+
+                    <!-- メインゲームエリア -->
+                    <div class="main-game-area">
+                        <!-- 中央エリア（注文ボタン + アニメーション） -->
+                        <div class="center-area" id="center-area">
+                            <button class="main-order-btn" id="main-order-button">注文内容を確認</button>
+                        </div>
+                    </div>
+
+                    <!-- 信用建て余力バー -->
+                    <div class="credit-margin-container">
+                        <div class="credit-margin-label" id="credit-margin-label">信用建て余力：100%</div>
+                        <div class="credit-margin-bar">
+                            <div class="credit-margin-fill" id="credit-margin-fill"></div>
+                        </div>
+                    </div>
+
+                    <!-- 下部タブボタンエリア -->
+                    <div class="bottom-tab-controls">
+                        <button class="bot-toggle-btn" id="bot-toggle">
+                            BOT<br>OFF
+                        </button>
+                        <button class="bottom-tab-btn bot-adjust" id="bot-adjust-tab">
+                            BOT調整
+                        </button>
+                        <button class="bottom-tab-btn order-list active" id="order-list-tab">
+                            注文約定一覧
+                        </button>
+                        <button class="gacha-btn-unified" id="gacha-button">
+                            現引き
+                        </button>
+                    </div>
+
+                    <!-- 統合表示エリア -->
+                    <div class="unified-display-area">
+                        <!-- BOT調整時のモード選択ボタン -->
+                        <div class="display-content" id="bot-adjust-content">
+                            <div class="bot-mode-selector">
+                                <button class="bot-mode-btn active" data-mode="take">🎍竹モード</button>
+                                <button class="bot-mode-btn" data-mode="ume">🏵️梅モード</button>
+                                <button class="bot-mode-btn" data-mode="matsu">🎄松モード</button>
+                                <button class="bot-mode-btn" data-mode="uma">🐴ウマモード</button>
+                            </div>
+                        </div>
+
+                        <!-- 注文約定一覧時のステータス表示 -->
+                        <div class="display-content active" id="order-list-content">
+                            <div class="status-display">
+                                <!-- 上段：2列 -->
+                                <div class="status-row-top">
+                                    <div class="status-item">
+                                        <span class="status-label">注文件数</span>
+                                        <span class="status-value" id="status-orders">0件</span>
+                                    </div>
+                                    <div class="status-item">
+                                        <span class="status-label">総アクセス数</span>
+                                        <span class="status-value" id="status-credit-margin">0回</span>
+                                    </div>
+                                </div>
+                                <!-- 下段：1列 -->
+                                <div class="status-row-bottom">
+                                    <div class="status-item">
+                                        <span class="status-label">建玉金額</span>
+                                        <span class="status-value" id="status-position">0円</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- デバッグボタンエリア -->
+                    <div class="debug-controls">
+                        <button class="debug-btn increase" id="debug-increase">建玉+1000万</button>
+                        <button class="debug-btn decrease" id="debug-decrease">建玉-1000万</button>
+                        <button class="debug-btn reset" id="debug-reset">リセット</button>
+                        <button class="debug-btn increase" id="debug-voting">議決権+100個</button>
+                        <button class="debug-btn increase" id="debug-orders">注文件数+10</button>
+                    </div>
+
+                </div>
+
+                <!-- 株主優待タブの内容 -->
+                <div id="bot-content" class="tab-content">
+                    <div class="mission-tab-content">
+                        <!-- 株主優待独立ボタンエリア -->
+                        <div class="upgrade-button-area">
+                            <button class="upgrade-button orange active" data-upgrade-content="use">優待を使う</button>
+                            <button class="upgrade-button blue" data-upgrade-content="list">株主優待一覧</button>
+                        </div>
+
+                        <!-- コンテンツエリア -->
+                        <div class="upgrade-content-container">
+                            <!-- 優待を使うコンテンツ -->
+                            <div class="upgrade-content active" id="upgrade-content-use">
+                                <!-- 上部詳細カード -->
+                                <div class="upgrade-detail-card">
+                                    <div class="upgrade-header">
+                                        <div class="upgrade-title">
+                                            <span id="detail-icon" class="item-detail-emoji">🎍</span>
+                                            <span id="detail-name">BOT強化</span>
+                                        </div>
+                                        <div class="upgrade-level" id="detail-level">Lv.2 (最大：5)</div>
+                                    </div>
+
+                                    <div class="upgrade-description" id="detail-description">
+                                        BOTのクリック速度が向上します。効率的な在庫確保が可能になります。
+                                    </div>
+
+                                    <div class="upgrade-effect">
+                                        <div class="upgrade-effect-value" id="detail-effect">2回/秒 → 3回/秒</div>
+                                    </div>
+
+                                    <div class="upgrade-cost-area">
+                                        <div class="upgrade-cost">
+                                            必要コスト: <span class="cost-value" id="detail-cost">250</span> PTC🪙
+                                        </div>
+                                        <button class="upgrade-action-button" id="upgrade-action-btn">アップグレード</button>
+                                    </div>
+                                </div>
+
+                                <!-- 下部選択グリッド -->
+                                <div class="upgrade-grid-container">
+                                    <div class="grid-title">アップグレード一覧</div>
+                                    <div class="upgrade-grid">
+                                        <!-- 1行目 -->
+                                        <div class="upgrade-item selected" data-upgrade="bot_speed">
+                                            <div class="upgrade-icon-level">
+                                                <div class="upgrade-icon">🎍</div>
+                                                <div class="upgrade-item-level">Lv.2</div>
+                                            </div>
+                                            <div class="upgrade-name">BOT強化</div>
+                                            <div class="upgrade-max-level">最大：5</div>
+                                        </div>
+
+                                        <div class="upgrade-item" data-upgrade="bot_get_rate">
+                                            <div class="upgrade-icon-level">
+                                                <div class="upgrade-icon">🏵️</div>
+                                                <div class="upgrade-item-level">Lv.1</div>
+                                            </div>
+                                            <div class="upgrade-name">BOT獲得率</div>
+                                            <div class="upgrade-max-level">最大：5</div>
+                                        </div>
+
+                                        <div class="upgrade-item" data-upgrade="bot_damage">
+                                            <div class="upgrade-icon-level">
+                                                <div class="upgrade-icon">🎄</div>
+                                                <div class="upgrade-item-level">Lv.0</div>
+                                            </div>
+                                            <div class="upgrade-name">BOTダメージ軽減</div>
+                                            <div class="upgrade-max-level">最大：5</div>
+                                        </div>
+
+                                        <!-- 2行目 -->
+                                        <div class="upgrade-item" data-upgrade="heart_boost">
+                                            <div class="upgrade-icon-level">
+                                                <div class="upgrade-icon">🐦️</div>
+                                                <div class="upgrade-item-level">Lv.0</div>
+                                            </div>
+                                            <div class="upgrade-name">はぁとアップ</div>
+                                            <div class="upgrade-max-level">最大：5</div>
+                                        </div>
+
+                                        <div class="upgrade-item" data-upgrade="gacha_multi">
+                                            <div class="upgrade-icon-level">
+                                                <div class="upgrade-icon">🏠️</div>
+                                                <div class="upgrade-item-level">Lv.0</div>
+                                            </div>
+                                            <div class="upgrade-name">ガチャ倍化</div>
+                                            <div class="upgrade-max-level">最大：5</div>
+                                        </div>
+
+                                        <div class="upgrade-item" data-upgrade="credit_margin">
+                                            <div class="upgrade-icon-level">
+                                                <div class="upgrade-icon">🏧</div>
+                                                <div class="upgrade-item-level">Lv.0</div>
+                                            </div>
+                                            <div class="upgrade-name">信用余力</div>
+                                            <div class="upgrade-max-level">最大：5</div>
+                                        </div>
+
+                                        <!-- 3行目 -->
+                                        <div class="upgrade-item" data-upgrade="sato_career">
+                                            <div class="upgrade-icon-level">
+                                                <div class="upgrade-icon">👨‍💼</div>
+                                                <div class="upgrade-item-level">Lv.1</div>
+                                            </div>
+                                            <div class="upgrade-name">佐藤昇進</div>
+                                            <div class="upgrade-max-level">最大：5</div>
+                                        </div>
+
+                                        <div class="upgrade-item" data-upgrade="puzzle_pro">
+                                            <div class="upgrade-icon-level">
+                                                <div class="upgrade-icon">🧩</div>
+                                                <div class="upgrade-item-level">Lv.0</div>
+                                            </div>
+                                            <div class="upgrade-name">パズルプロ</div>
+                                            <div class="upgrade-max-level">最大：5</div>
+                                        </div>
+
+                                        <div class="upgrade-item" data-upgrade="loud_voice">
+                                            <div class="upgrade-icon-level">
+                                                <div class="upgrade-icon">📢</div>
+                                                <div class="upgrade-item-level">Lv.0</div>
+                                            </div>
+                                            <div class="upgrade-name">クソデカボイス</div>
+                                            <div class="upgrade-max-level">最大：5</div>
+                                        </div>
+
+                                        <!-- 4行目 -->
+                                        <div class="upgrade-item" data-upgrade="god_finger">
+                                            <div class="upgrade-icon-level">
+                                                <div class="upgrade-icon">🖕</div>
+                                                <div class="upgrade-item-level">Lv.0</div>
+                                            </div>
+                                            <div class="upgrade-name">神の中指</div>
+                                            <div class="upgrade-max-level">最大：5</div>
+                                        </div>
+
+                                        <div class="upgrade-item" data-upgrade="rollover_avoid">
+                                            <div class="upgrade-icon-level">
+                                                <div class="upgrade-icon">🚛</div>
+                                                <div class="upgrade-item-level">Lv.0</div>
+                                            </div>
+                                            <div class="upgrade-name">横転回避</div>
+                                            <div class="upgrade-max-level">最大：5</div>
+                                        </div>
+
+                                        <div class="upgrade-item" data-upgrade="god_thumb">
+                                            <div class="upgrade-icon-level">
+                                                <div class="upgrade-icon">👍</div>
+                                                <div class="upgrade-item-level">Lv.0</div>
+                                            </div>
+                                            <div class="upgrade-name">神の親指</div>
+                                            <div class="upgrade-max-level">最大：5</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 株主優待一覧コンテンツ -->
+                            <div class="upgrade-content" id="upgrade-content-list">
+                                <!-- 上部：詳細カード -->
+                                <div class="item-detail-card">
+                                    <!-- 動的に生成 -->
+                                </div>
+
+                                <!-- 中部：フィルタ -->
+                                <div class="filter-container">
+                                    <div class="filter-tabs">
+                                        <div class="filter-tab active">QUO</div>
+                                        <div class="filter-tab">優待</div>
+                                        <div class="filter-tab">食糧</div>
+                                        <div class="filter-tab">雑品</div>
+                                        <div class="filter-tab">貴重品</div>
+                                    </div>
+                                </div>
+
+                                <!-- 下部：アイテムグリッド -->
+                                <div class="item-grid-container">
+                                    <div class="grid-title">所持アイテム一覧</div>
+                                    <div class="item-grid" id="item-grid">
+                                        <!-- 動的に生成 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ミッションタブの内容 -->
+                <div id="mission-content" class="tab-content">
+                    <div class="mission-tab-content">
+                        <!-- ミッション内タブナビゲーション -->
+                        <div class="mission-tab-navigation">
+                            <button class="mission-tab-button active" data-mission-tab="recommend">オススメ</button>
+                            <button class="mission-tab-button" data-mission-tab="character">フォロー中</button>
+                        </div>
+
+                        <!-- ミッション内タブコンテンツ -->
+                        <div class="mission-tab-content-container">
+                            <div class="mission-header">
+                                <div class="mission-title">いまどうしてる？</div>
+                                <button class="refresh-btn" id="mission-refresh">更新</button>
+                            </div>
+                            <div class="mission-list" id="mission-list">
+                                <div class="loading-message">ミッションを読み込み中...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 実績タブの内容 -->
+                <div id="yuutai-content" class="tab-content">
+                    <div class="mission-tab-content">
+                        実績タブ - 準備中
+                    </div>
+                </div>
+
+                <!-- 設定タブの内容 -->
+                <div id="settings-content" class="tab-content">
+                    <div class="mission-tab-content">
+                        設定タブ - 準備中
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== ブロック2 終点 ========== -->
+
+    <!-- ========== ブロック3 始点 ========== -->
+
+    <script>
+        // ========== ゲーム状態管理 ==========
+        const gameState = {
+            currentScreen: 'title',
+            userName: 'ともちぃさん',
+            userId: 'tomochi-fun',
+            cash: 10000000,
+            premiumCoin: 450000,
+            rice: 0,           // お米システム
+            favo: 0,           // 新規追加: はぁとシステム
+            voting: 0,        // 議決権の保有量
+            botEnabled: false,    // bot起動状態
+            botInterval: null,    // タイマー管理用
+            botSpeed: 1000,        // 1秒間隔
+            totalClicks: 0,
+            stamina: 4,
+            inventory: {}      // インベントリ初期化
+        };
+
+        // ========== BOT調整モードシステム（新規追加） ==========
+        const botModeSettings = {
+            take: { name: '🎍竹モード', speedMultiplier: 1.0, hitRateMultiplier: 1.0 },      // 効率: 1.0倍
+            ume: { name: '🏵️梅モード', speedMultiplier: 0.5, hitRateMultiplier: 4.0 },      // 効率: 2.0倍
+            matsu: { name: '🎄松モード', speedMultiplier: 10.0, hitRateMultiplier: 0.15 },   // 効率: 1.5倍
+            uma: { name: '🐴ウマモード', speedMultiplier: 100.0, hitRateMultiplier: 0.009 }   // 効率: 0.9倍
+        };
+
+        let currentBotMode = 'take'; // デフォルトは竹モード
+
+        // ========== ゲームバランス設定（建玉金額システム） ==========
+        const gameBalance = {
+            baseOrderAmount: 300000,    // 基準建玉金額（アップグレードで減少可能：300,000円→100,000円）
+            orderVariation: 0.2         // 変動幅（±20%）
+        };
+
+        /**
+         * ランダム建玉金額を取得
+         * 基準値の±20%の範囲でランダムに計算し、100円未満を切り捨て
+         * @returns {number} ランダム建玉金額（100円単位）
+         */
+        function getRandomOrderAmount() {
+            const base = gameBalance.baseOrderAmount;
+            const variation = gameBalance.orderVariation;
+
+            // ±20%の範囲でランダム計算（0.8倍～1.2倍）
+            const randomFactor = 1 + (Math.random() - 0.5) * 2 * variation;
+            const amount = base * randomFactor;
+
+            // 100円未満切り捨て
+            return Math.floor(amount / 100) * 100;
+        }
+
+        // ========== エラーメッセージバリエーション ==========
+        const failureMessages = [
+            '⚠️ご注文数量が、一般信用売建可能数量を超過しているため、受付けできません。',
+            '⚠️ご指定の銘柄は一般信用売建の対象外、もしくは一般信用売建可能数量が0株のため、受付けできません。',
+            '⚠️ご注文の銘柄は当社の規制により取引を制限しております。ご注文はお受けできません。詳細は取引規制情報をご覧ください。',
+            '⚠️期間指定区分を指定してください。',
+            '⚠️数量を入力してください。',
+            '⚠️価格（指値）が未入力です。',
+            '⚠️取引時間外です。'
+        ];
+
+        /**
+         * ランダムな失敗メッセージを取得
+         * @returns {string} ランダム選択されたエラーメッセージ
+         */
+        function getRandomFailureMessage() {
+            return failureMessages[Math.floor(Math.random() * failureMessages.length)];
+        }
+
+
+        const debugState = {
+            orders: 0,
+            positionAmount: 0,
+            initialPositionAmount: 0,
+            stock: 0,
+            cps: 34,
+            getRate: 3.4,
+            loadRate: 430,
+            fireRate: 24,
+            serverHP: 20000,
+            maxServerHP: 20000,
+            clickDamage: 1,
+            isServerDown: false,
+            isPreGacha: false,
+            isRollover: false,  // 横転
+            clicksSinceLastGacha: 0  // 前回ガチャからのクリック数
+        };
+
+        // ========== ミッションシステム ==========
+        let missionData = null;
+        let tweetsData = null;      // tweets.json
+        let missionsData = null;    // missions.json
+        let normalizedMissions = []; // 正規化済みミッション一覧
+        let currentActiveTab = 'recommend'; // 現在のアクティブタブ
+        let upgradeJsonData = null;
+        let upgradeProgress = {　　 // 進捗管理（メモリのみ、ローカルストレージは後回し）
+            bot_speed: 2  // 現在レベル
+        };
+
+        // ========== SystemTimer最適化版 ==========
+        const SystemTimer = {
+            timer: null,
+            shouldUpdateMissionUI: false,
+            shouldFullRefresh: false,
+
+            start() {
+                if (this.timer) return; // 重複防止
+
+                this.timer = setInterval(() => {
+                    this.updateServer();
+                    this.updateMissions();
+                    this.updateUI();
+                }, 1000);
+
+                console.log('システムタイマー開始');
+            },
+
+            stop() {
+                if (this.timer) {
+                    clearInterval(this.timer);
+                    this.timer = null;
+                    console.log('システムタイマー停止');
+                }
+            },
+
+            updateServer() {
+                // サーバーHP回復処理
+                if (debugState.serverHP < debugState.maxServerHP) {
+                    debugState.serverHP += 1;
+                    checkServerDown();
+                }
+            },
+
+            updateMissions() {
+                // 全ミッション進行更新
+                let hasTimeUpdates = false;
+                let hasCompletions = false;
+
+                for (const missionId in missionStates) {
+                    const state = missionStates[missionId];
+                    if (state.state === 'progress' && state.remainingTime > 0) {
+                        state.remainingTime--;
+                        hasTimeUpdates = true;
+
+                        if (state.remainingTime <= 0) {
+                            // ミッション完了
+                            state.state = 'complete';
+                            state.remainingTime = 0;
+                            hasCompletions = true;
+                            console.log(`ミッション完了: ${missionId} → complete状態に変更`);
+                        }
+                    }
+                }
+
+                // 完了状態変化があった場合は全体更新
+                if (hasCompletions) {
+                    this.shouldFullRefresh = true;
+                    console.log('完了検出 - 全体更新予約');
+                }
+                // 時間変化のみの場合は部分更新
+                else if (hasTimeUpdates) {
+                    this.shouldUpdateMissionUI = true;
+                }
+            },
+
+            updateUI() {
+                // アクティブタブのUI更新
+                updateDisplay(); // 既存のヘッダー更新
+
+                // 現在のアクティブタブが mission の場合のみ処理
+                const activeTabButton = document.querySelector('.tab-button.active');
+                if (activeTabButton && activeTabButton.dataset.tab === 'mission') {
+
+                    if (this.shouldFullRefresh) {
+                        // 全体更新（完了時）
+                        console.log('全体更新実行');
+                        displayCurrentTabMissions();
+                        this.shouldFullRefresh = false;
+
+                    } else if (this.shouldUpdateMissionUI) {
+                        // 部分更新（時間表示のみ）
+                        updateMissionTimeDisplays();
+                        this.shouldUpdateMissionUI = false;
+                    }
+                }
+            }
+        };
+        // ========== 部分更新関数（追加） ==========
+
+        function updateMissionTimeDisplays() {
+            // 進行中ミッションの時間表示のみを更新
+            for (const missionId in missionStates) {
+                const state = missionStates[missionId];
+                if (state.state === 'progress') {
+                    const missionCard = document.querySelector(`[data-mission-id="${missionId}"]`);
+                    if (missionCard) {
+                        const timeElement = missionCard.querySelector('.mission-time');
+                        if (timeElement) {
+                            timeElement.textContent = `残り時間：${state.remainingTime}秒`;
+                            console.log(`時間更新: ${missionId} → ${state.remainingTime}秒`);
+                        }
+                    }
+                }
+            }
+        }
+
+        // ========== 統一インターフェースシステム ==========
+        const MissionNormalizer = {
+            // fromCharacter関数は既存のまま
+            fromCharacter(mission, characters, difficulties) {
+                const char = characters[mission.char];
+                const diff = difficulties[mission.difficulty];
+
+                // 基本報酬 + 個別レアアイテム
+                const rewards = { ...mission.rewards };
+                if (mission.specialRewards) {
+                    // specialRewardsをマージ
+                    Object.keys(mission.specialRewards).forEach(key => {
+                        if (key === 'items') {
+                            rewards.items = [
+                                ...(rewards.items || []),
+                                ...mission.specialRewards.items
+                            ];
+                        } else {
+                            rewards[key] = (rewards[key] || 0) + mission.specialRewards[key];
+                        }
+                    });
+                }
+
+                return {
+                    id: mission.id,
+                    title: char.name,
+                    content: mission.content,
+                    duration: diff.duration,
+                    requirements: mission.requirements,
+                    rewards: rewards,
+                    type: 'character',
+                    metadata: {
+                        character: char,
+                        difficulty: diff.stars,
+                        chapterTitle: `${char.name}のミッション`
+                    }
+                };
+            },
+
+            // fromStory関数修正版
+            fromStory(chapter, story) {
+                return {
+                    id: chapter.id,
+                    title: story.title,
+                    content: chapter.content,
+                    duration: chapter.duration,
+                    requirements: chapter.requirements,
+                    rewards: chapter.rewards,
+                    type: 'story',
+                    metadata: {
+                        storyId: story.storyId,
+                        storyTitle: story.title,
+                        storyIcon: story.icon,  // ← 追加
+                        chapterNumber: chapter.chapterNumber,
+                        chapterTitle: chapter.title,
+                        totalChapters: story.totalChapters,
+                        unlockConditions: chapter.unlockConditions,
+                        difficulty: `第${chapter.chapterNumber}話`
+                    }
+                };
+            }
+        };
+
+        const BotTimer = {
+            timer: null,
+
+            start() {
+                if (this.timer) this.stop(); // 既存を停止
+
+                // BOT調整モード効果を適用した最終速度を計算
+                let finalSpeed = gameState.botSpeed; // アップグレード済み速度
+                finalSpeed = Math.round(finalSpeed / botModeSettings[currentBotMode].speedMultiplier);
+
+                this.timer = setInterval(() => {
+                    if (gameState.botEnabled) {
+                        handleOrderClick(true); // 既存の関数
+                    }
+                }, finalSpeed);
+
+                console.log(`BOTタイマー開始: ${gameState.botSpeed}ms → ${finalSpeed}ms (${botModeSettings[currentBotMode].name})`);
+            },
+
+            stop() {
+                if (this.timer) {
+                    clearInterval(this.timer);
+                    this.timer = null;
+                    console.log('BOTタイマー停止');
+                }
+            },
+
+            restart() {
+                console.log('BOTタイマー再起動');
+                this.stop();
+                this.start();
+            }
+        };
+
+        const GameTimerManager = {
+            isInitialized: false,
+
+            init() {
+                if (this.isInitialized) return;
+
+                console.log('ゲームタイマーマネージャー初期化');
+                SystemTimer.start();
+                this.isInitialized = true;
+            },
+
+            startBot() {
+                console.log('BOT開始');
+                gameState.botEnabled = true;
+                BotTimer.start();
+            },
+
+            stopBot() {
+                console.log('BOT停止');
+                gameState.botEnabled = false;
+                BotTimer.stop();
+            },
+
+            updateBotSpeed(newSpeed) {
+                console.log(`BOT速度変更: ${gameState.botSpeed}ms → ${newSpeed}ms`);
+                gameState.botSpeed = newSpeed;
+
+                if (gameState.botEnabled) {
+                    BotTimer.restart();
+                }
+            },
+
+            destroy() {
+                console.log('全タイマー停止');
+                SystemTimer.stop();
+                BotTimer.stop();
+                this.isInitialized = false;
+            }
+        };
+
+        // ========== アクティブタブ表示更新修正 ==========
+
+        function updateActiveTabDisplay() {
+            // 現在アクティブなタブのみ更新
+            const activeTabButton = document.querySelector('.tab-button.active, .mission-tab-button.active');
+            if (!activeTabButton) return;
+
+            const tabName = activeTabButton.dataset.tab || activeTabButton.dataset.missionTab;
+
+            // ミッションタブの場合は内部タブもチェック
+            if (tabName === 'mission') {
+                updateActiveMissionTab();
+            }
+            // 他のタブは後で実装
+        }
+
+        function updateActiveMissionTab() {
+            // ミッション内タブの更新
+            if (normalizedMissions.length > 0) {
+                // 進行中のミッションの時間を更新（1秒ごと）
+                let needsUpdate = false;
+
+                for (const missionId in missionStates) {
+                    const state = missionStates[missionId];
+                    if (state.state === 'progress') {
+                        needsUpdate = true;
+                        break;
+                    }
+                }
+
+                // 進行中ミッションがある場合のみUI更新
+                if (needsUpdate) {
+                    displayCurrentTabMissions();
+                }
+            }
+        }
+
+
+        let currentMissionTab = 'recommend';
+        let missionStates = {}; // ミッション状態管理
+
+        // ========== アイテムシステム ==========
+        let itemData = null; // items.jsonから読み込んだデータ
+
+        // ========== ガチャシステム ==========
+        let gachaData = null; // gacha.jsonから読み込んだデータ
+
+        // ========== Twemoji 変換システム ==========
+        function convertEmojis(element = document.body) {
+            if (typeof twemoji !== 'undefined') {
+                twemoji.parse(element, {
+                    folder: 'svg',
+                    ext: '.svg',
+                    base: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/'
+                });
+            }
+        }
+
+        // ========== アイテム検索ヘルパー関数 ==========
+        function findItemById(itemId) {
+            if (!itemData || !itemData.items) return null;
+            return itemData.items.find(item => item.id === itemId);
+        }
+        // ========== アイテム絵文字取得ヘルパー関数 ==========
+        function getItemEmoji(itemId) {
+            const item = findItemById(itemId);
+            return item ? item.emoji : '❓';
+        }
+
+        // ========== 通貨・基本要素の絵文字マップ ==========
+        const RESOURCE_EMOJIS = {
+            cash: '💴',
+            premium: '🪙',
+            rice: '🍙',
+            favo: '💕',
+            voting: '📜'
+        };
+
+        // ========== アイテムデータ読み込み ==========
+        async function loadItems() {
+            const response = await fetch('./items.json');
+            itemData = await response.json();
+            console.log('アイテムデータ読み込み完了:', itemData);
+        }
+
+        // ========== ガチャデータ読み込み ==========
+        async function loadGacha() {
+            const response = await fetch('./gacha.json');
+            gachaData = await response.json();
+            console.log('ガチャデータ読み込み完了:', gachaData);
+        }
+
+        // ========== アップグレードデータ読み込み ==========
+        async function loadUpgrades() {
+            try {
+                const response = await fetch('./upgrade.json');
+                if (!response.ok) {
+                    throw new Error(`アップグレードファイルの読み込みに失敗しました (${response.status})`);
+                }
+
+                const data = await response.json();
+                upgradeJsonData = data;
+                console.log('アップグレードデータ読み込み完了:', upgradeJsonData);
+                return true;
+            } catch (error) {
+                console.error('アップグレードデータの読み込みに失敗しました:', error);
+                return false;
+            }
+        }
+
+        // ========== 初期化 ==========
+        async function init() {
+            setupEventListeners();
+
+            // Twemoji 初期化（シンプル版）
+            if (typeof twemoji !== 'undefined') {
+                // 初期変換
+                convertEmojis();
+                console.log('Twemoji初期化完了');
+
+                // MutationObserver で動的要素監視
+                const emojiObserver = new MutationObserver((mutations) => {
+                    mutations.forEach((mutation) => {
+                        mutation.addedNodes.forEach((node) => {
+                            if (node.nodeType === Node.ELEMENT_NODE) {
+                                convertEmojis(node);
+                            }
+                        });
+                    });
+                });
+
+                // 監視開始
+                emojiObserver.observe(document.body, {
+                    childList: true,
+                    subtree: true
+                });
+                console.log('絵文字自動変換システム開始');
+            } else {
+                console.warn('Twemojiライブラリが読み込まれていません');
+            }
+
+            // 必要なデータを読み込む
+            await loadItems();
+            await loadGacha();
+            await loadUpgrades();
+
+            // ゲーム初期化
+            updateDisplay();
+            await loadAllMissionData();
+            GameTimerManager.init(); // 新タイマーシステムで初期化
+            initUpgradeButtons(); // アップグレードタブ
+            initUpgradeSystem();  // アップグレードシステム
+            initItemList();       // アイテム一覧システム
+            updateBotModeUI();    // BOT調整モード初期化
+        }
+
+        function setupEventListeners() {
+            const startButton = document.getElementById('start-button');
+            const mainOrderButton = document.getElementById('main-order-button');
+            const nameToggle = document.getElementById('name-toggle');
+            const nameInput = document.getElementById('name-input');
+            const marshmallowLink = document.getElementById('marshmallow-link');
+            const botToggle = document.getElementById('bot-toggle');
+
+            // デバッグボタン
+            const debugIncrease = document.getElementById('debug-increase');
+            const debugDecrease = document.getElementById('debug-decrease');
+            const debugReset = document.getElementById('debug-reset');
+            const debugVoting = document.getElementById('debug-voting');
+            const debugOrders = document.getElementById('debug-orders');
+
+            if (startButton) {
+                startButton.addEventListener('click', handleGameStart);
+            }
+
+            if (mainOrderButton) {
+                mainOrderButton.addEventListener('click', function () {
+                    handleOrderClick(); // 引数なし = false
+                });
+            }
+
+            if (nameToggle && nameInput) {
+                nameToggle.addEventListener('click', toggleNameInput);
+            }
+
+            if (marshmallowLink) {
+                marshmallowLink.addEventListener('click', function () {
+                    window.open('https://marshmallow-qa.com/hdl55x2xyxkuz0q?t=OGltiZ&utm_medium=url_text&utm_source=promotion', '_blank');
+                });
+            }
+
+            if (botToggle) {
+                botToggle.addEventListener('click', function () {
+                    toggleBot();
+                    botToggle.innerHTML = gameState.botEnabled ? 'BOT<br>ON' : 'BOT<br>OFF';
+                    botToggle.className = gameState.botEnabled ? 'bot-toggle-btn active' : 'bot-toggle-btn';
+                });
+            }
+
+            // デバッグボタンイベント
+            if (debugIncrease) {
+                debugIncrease.addEventListener('click', function () {
+                    debugState.positionAmount += 10000000;
+                    if (debugState.positionAmount < 0) {
+                        debugState.positionAmount = 0;
+                    }
+                    updateDisplay();
+                });
+            }
+
+            if (debugDecrease) {
+                debugDecrease.addEventListener('click', function () {
+                    debugState.positionAmount -= 10000000;
+                    if (debugState.positionAmount < 0) {
+                        debugState.positionAmount = 0;
+                    }
+                    updateDisplay();
+                });
+            }
+
+            if (debugReset) {
+                debugReset.addEventListener('click', function () {
+                    debugState.positionAmount = debugState.initialPositionAmount;
+                    debugState.serverHP = debugState.maxServerHP;
+                    debugState.isServerDown = false;
+                    debugState.isPreGacha = false;
+                    gameState.inventory = {}; // インベントリもリセット
+                    gameState.rice = 0;       // お米もリセット
+                    gameState.favo = 0;       // はぁともリセット
+                    gameState.voting = 0;   // フォロワーもリセット
+                    updateServerDownUI();
+                    updateDisplay();
+                });
+            }// debugReset の処理の後に追加
+            if (debugVoting) {
+                debugVoting.addEventListener('click', function () {
+                    gameState.voting += 100;
+                    updateDisplay();
+                });
+            }
+            if (debugOrders) {
+                debugOrders.addEventListener('click', function () {
+                    debugState.orders += 10;
+                    debugState.positionAmount += 3000000; // 30万円×10 = 300万円
+                    updateDisplay();
+                });
+            }
+
+
+            // 情報タブ切り替え
+            document.querySelectorAll('.info-tab-button').forEach(button => {
+                button.addEventListener('click', function () {
+                    const tabName = this.dataset.infoTab;
+                    switchInfoTab(tabName);
+                });
+            });
+
+            // ゲームタブ切り替え
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.addEventListener('click', function () {
+                    switchGameTab(this);
+                });
+            });
+
+            // 下部タブ切り替え
+            document.querySelectorAll('.bottom-tab-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    switchBottomTab(this);
+                });
+            });
+
+            // ミッション更新ボタン
+            const missionRefresh = document.getElementById('mission-refresh');
+            if (missionRefresh) {
+                missionRefresh.addEventListener('click', refreshMissions);
+            }
+
+            // 現引き/謝罪ボタン
+            const gachaButton = document.getElementById('gacha-button');
+            if (gachaButton) {
+                gachaButton.addEventListener('click', function () {
+                    if (debugState.isServerDown) {
+                        handleApologyClick();
+                    } else if (debugState.isPreGacha) {
+                        // ガチャ発火処理
+                        console.log('現渡ボタンクリック - ガチャ発火開始');
+                        executeGacha();
+                    } else if (debugState.orders > 0) {
+                        // pre現渡モードに移行
+                        console.log('現引きボタンクリック - pre現渡モード開始');
+                        enterPreGachaMode();
+                    }
+                });
+            }
+
+            // イベント委譲によるミッション関連イベント処理
+            document.addEventListener('click', function (event) {
+                // ミッション内タブ切り替え
+                if (event.target.classList.contains('mission-tab-button')) {
+                    const tabName = event.target.dataset.missionTab;
+                    switchMissionTab(tabName);
+                }
+
+                // ミッションボタンクリック処理
+                if (event.target.classList.contains('mission-btn')) {
+                    const missionCard = event.target.closest('.mission-card');
+                    if (missionCard) {
+                        const missionId = missionCard.dataset.missionId;
+                        const action = event.target.textContent;
+                        handleMissionAction(missionId, action);
+                    }
+                }
+
+                // BOT調整モードボタンクリック処理
+                if (event.target.classList.contains('bot-mode-btn')) {
+                    const newMode = event.target.dataset.mode;
+                    changeBotMode(newMode);
+                }
+            });
+        }
+
+        // ========== クリック処理機能 ==========
+        function handleOrderClick(isBot = false) {
+            // サーバーダウン中またはpre現渡中はクリック無効
+            if (debugState.isServerDown || debugState.isPreGacha) return;
+
+            // 総クリック数を必ず増加
+            gameState.totalClicks++;
+
+            // 現引きまでのクリック数をカウント
+            debugState.clicksSinceLastGacha++;
+
+            // ダメージ計算（基本値：手動1、BOT2）
+            let damage = isBot ? 2 : 1;
+
+            if (isBot) {
+                // 🎄BOTダメージ軽減 (1レベルあたり16%軽減、最大80%)
+                const damageReduction = Math.min((upgradeProgress.bot_damage || 0) * 0.16, 0.8);
+                damage *= (1 - damageReduction);
+            } else {
+                // 👍神の親指 (1レベルあたり16%軽減、最大80%)
+                const handDamageReduction = Math.min((upgradeProgress.god_thumb || 0) * 0.16, 0.8);
+                damage *= (1 - handDamageReduction);
+            }
+
+            // 成功率計算（基本値：手動25%、BOT10%）
+            let successRate = isBot ? 0.1 : 0.25;
+
+            if (isBot) {
+                // 🏵️BOT獲得率向上 (1レベルあたり10%向上、10%→60%)
+                successRate += (upgradeProgress.bot_get_rate || 0) * 0.1;
+                // BOT調整モード効果適用（最終調整）
+                successRate *= botModeSettings[currentBotMode].hitRateMultiplier;
+            } else {
+                // 🖕神の中指 (1レベルあたり13%向上、25%→90%)
+                successRate += (upgradeProgress.god_finger || 0) * 0.13;
+                // 手動時はBOT調整の影響を受けない
+            }
+
+            // デバッグ用ログ
+            console.log(`${isBot ? 'BOT' : '手動'}クリック - ダメージ:${damage.toFixed(1)}, 成功率:${(successRate * 100).toFixed(1)}%`);
+
+            // サーバーHP減少処理
+            debugState.serverHP -= damage;
+            if (debugState.serverHP < 0) debugState.serverHP = 0;
+
+            // サーバーダウンチェック
+            checkServerDown();
+
+            // 当たり判定
+            const isHit = Math.random() < successRate;
+
+            if (isHit) {
+                // 当たり処理
+                debugState.orders++;
+                debugState.positionAmount += getRandomOrderAmount(); // ランダム建玉金額
+                showResultPopup(true);
+            } else {
+                // 外れ処理
+                showResultPopup(false);
+            }
+
+            // 表示を即座に更新
+            updateDisplay();
+        }
+
+        function showResultPopup(isSuccess) {
+            const centerArea = document.getElementById('center-area');
+            if (!centerArea) return;
+
+            // ポップアップ要素を作成
+            const popup = document.createElement('div');
+            popup.className = `result-popup ${isSuccess ? 'success' : 'failure'}`;
+
+            // メッセージ設定
+            if (isSuccess) {
+                popup.textContent = '新規売り注文を受け付けました';
+                popup.style.animationDuration = '2.5s'; // 成功時2.5秒
+            } else {
+                popup.textContent = getRandomFailureMessage();
+                popup.style.animationDuration = '1.0s'; // 失敗時1.0秒
+            }
+
+            // 一時的に画面外に配置してサイズを取得
+            popup.style.visibility = 'hidden';
+            popup.style.position = 'absolute';
+            centerArea.appendChild(popup);
+
+            // ランダム位置を設定（center-area内・中心点基準）
+            const areaRect = centerArea.getBoundingClientRect();
+            const popupRect = popup.getBoundingClientRect();
+
+            const randomX = Math.random() * areaRect.width;
+            const randomY = Math.random() * areaRect.height;
+
+            // 中心点基準で座標設定
+            const centerX = randomX - (popupRect.width / 2);
+            const centerY = randomY - (popupRect.height / 2);
+
+            popup.style.left = centerX + 'px';
+            popup.style.top = centerY + 'px';
+            popup.style.visibility = 'visible';
+
+            // アニメーション終了後に削除
+            const duration = isSuccess ? 2000 : 500; // 成功2秒・失敗0.5秒
+            setTimeout(() => {
+                if (popup.parentNode) {
+                    popup.parentNode.removeChild(popup);
+                }
+            }, duration);
+        }
+
+        // ========== サーバーダウン処理 ==========
+        function checkServerDown() {
+            const wasDown = debugState.isServerDown;
+            const shouldBeDown = (debugState.serverHP === 0);
+            const shouldRecover = (debugState.serverHP === debugState.maxServerHP);
+
+            if (!wasDown && shouldBeDown) {
+                enterServerDownMode();
+            } else if (wasDown && shouldRecover) {
+                exitServerDownMode();
+            }
+        }
+
+        function enterServerDownMode() {
+            debugState.isServerDown = true;
+            debugState.orders = 0;
+            debugState.positionAmount = 0;
+            updateServerDownUI();
+            // サーバー倒壊エラーポップアップ表示
+            showErrorPopup("🔥サーバー倒壊🔥", "全ての在庫を失いました。<br>謝罪ボタンで復旧してください。");
+
+        }
+
+        function exitServerDownMode() {
+            debugState.isServerDown = false;
+            updateServerDownUI();
+        }
+
+        function updateServerDownUI() {
+            const orderButton = document.getElementById('main-order-button');
+            const gachaButton = document.getElementById('gacha-button');
+            const hpLabel = document.querySelector('.server-hp-label');
+
+            if (debugState.isServerDown) {
+                // サーバーダウン状態のUI
+                if (orderButton) {
+                    orderButton.classList.add('disabled');
+                    orderButton.style.background = '#cccccc';
+                    orderButton.style.cursor = 'not-allowed';
+                }
+
+                if (gachaButton) {
+                    gachaButton.textContent = '謝罪';
+                    gachaButton.style.background = '#87ceeb';
+                    gachaButton.classList.add('apology');
+                }
+
+                if (hpLabel) {
+                    hpLabel.textContent = 'サーバーは応答していません。現在復旧中です。';
+                }
+            } else if (debugState.isPreGacha) {
+                // pre現渡状態のUI
+                if (orderButton) {
+                    orderButton.classList.add('disabled');
+                    orderButton.style.background = '#cccccc';
+                    orderButton.style.cursor = 'not-allowed';
+                }
+                // ガチャボタンはupdateGachaButtonState()で処理
+            } else {
+                // 通常状態のUI
+                if (orderButton) {
+                    orderButton.classList.remove('disabled');
+                    orderButton.style.background = '#4caf50';
+                    orderButton.style.cursor = 'pointer';
+                }
+
+                if (gachaButton) {
+                    gachaButton.style.background = '#ff5722';
+                    gachaButton.classList.remove('apology');
+                }
+
+                if (hpLabel) {
+                    hpLabel.textContent = 'サーバーHP';
+                }
+            }
+        }
+
+        function handleApologyClick() {
+            if (debugState.isServerDown) {
+                debugState.serverHP += 5;
+                if (debugState.serverHP > debugState.maxServerHP) {
+                    debugState.serverHP = debugState.maxServerHP;
+                }
+                checkServerDown();
+                updateDisplay();
+            }
+        }
+
+        // ========== ミッション機能 ==========
+
+        async function loadAllMissionData() {
+            console.log('全ミッションデータ読み込み開始');
+
+            try {
+                // tweets.json 読み込み
+                await loadTweetsData();
+
+                // missions.json 読み込み
+                await loadMissionsData();
+
+                // 正規化処理
+                normalizeMissions();
+
+                // 初期表示（ストーリータブをデフォルト）
+                currentActiveTab = 'story';
+                displayCurrentTabMissions();
+
+                console.log('全ミッションデータ読み込み完了');
+
+            } catch (error) {
+                console.error('ミッションデータ読み込みエラー:', error);
+                showMissionError('ミッションデータの読み込みに失敗しました');
+            }
+        }
+
+        // ========== タブ表示ロジック修正 ==========
+        function displayCurrentTabMissions() {
+            console.log(`現在のタブ表示: ${currentActiveTab}`);
+
+            if (currentActiveTab === 'character') {
+                displayCharacterTab();
+            } else if (currentActiveTab === 'story') {
+                displayStoryTab();
+            } else {
+                // デフォルトはストーリータブ
+                currentActiveTab = 'story';
+                displayStoryTab();
+            }
+        }
+
+        function displayCharacterTab() {
+            console.log('フォロー中タブ表示');
+
+            // キャラクターミッションを取得
+            const characterMissions = normalizedMissions.filter(m => m.type === 'character');
+
+            // 進行中・完了・受取済みのミッションを保持（全て表示継続）
+            const activeMissions = [];
+            for (const missionId in missionStates) {
+                const state = missionStates[missionId].state;
+                if (state === 'progress' || state === 'complete' || state === 'claimed') {
+                    const mission = characterMissions.find(m => m.id === missionId);
+                    if (mission) {
+                        activeMissions.push(mission);
+                    }
+                }
+            }
+
+            console.log(`アクティブミッション: ${activeMissions.length}個 (進行中・完了・受取済み)`);
+
+            // 必要な新規ミッション数を計算（3個から保持分を引く）
+            const neededCount = 3 - activeMissions.length;
+
+            if (neededCount > 0) {
+                // 未選択のミッションから抽選
+                const availableMissions = characterMissions.filter(mission =>
+                    !missionStates[mission.id]
+                );
+
+                const newMissions = getRandomMissions(availableMissions, neededCount);
+                console.log(`新規ミッション追加: ${newMissions.length}個`);
+
+                // 全ミッションを結合
+                const allMissions = [...activeMissions, ...newMissions];
+                displayMissions(allMissions);
+            } else {
+                // 既にアクティブミッションが3個以上ある場合
+                displayMissions(activeMissions.slice(0, 3));
+            }
+        }
+
+        // ========== ストーリータブ表示修正 ==========
+
+        function displayStoryTab() {
+            console.log('オススメタブ表示');
+
+            // ストーリーミッションを取得
+            const storyMissions = normalizedMissions.filter(m => m.type === 'story');
+            console.log(`ストーリーミッション数: ${storyMissions.length}`);
+
+            if (storyMissions.length === 0) {
+                console.log('ストーリーミッションが見つかりません');
+                const missionList = document.getElementById('mission-list');
+                if (missionList) {
+                    missionList.innerHTML = '<div class="error-message">ストーリーミッションが読み込まれていません</div>';
+                }
+                return;
+            }
+
+            // 各ストーリーから次に進行可能なチャプターを取得
+            const availableChapters = [];
+
+            if (missionsData && missionsData.stories) {
+                console.log(`利用可能ストーリー数: ${missionsData.stories.length}`);
+
+                missionsData.stories.forEach(story => {
+                    const nextChapter = getNextAvailableChapter(story.storyId, storyMissions);
+                    if (nextChapter) {
+                        availableChapters.push(nextChapter);
+                        console.log(`追加されたチャプター: ${nextChapter.id}`);
+                    } else {
+                        console.log(`${story.storyId}: 利用可能なチャプターなし`);
+                    }
+                });
+            }
+
+            // 最大3個まで表示
+            const displayChapters = availableChapters.slice(0, 3);
+            console.log(`表示チャプター数: ${displayChapters.length}`);
+
+            displayMissions(displayChapters);
+        }
+
+        function getNextAvailableChapter(storyId, storyMissions) {
+            // そのストーリーのミッションを取得
+            const storyChapters = storyMissions.filter(m => m.metadata.storyId === storyId);
+
+            // 完了済みチャプター数を計算
+            const completedCount = storyChapters.filter(chapter => {
+                const state = missionStates[chapter.id];
+                return state && state.state === 'claimed';
+            }).length;
+
+            // 次のチャプター番号
+            const nextChapterNum = completedCount + 1;
+
+            // 該当するチャプターを返す
+            return storyChapters.find(chapter =>
+                chapter.metadata.chapterNumber === nextChapterNum
+            );
+        }
+
+        // ========== ミッション表示関数 ==========
+
+        function displayMissions(missions) {
+            const missionList = document.getElementById('mission-list');
+            if (!missionList) {
+                console.error('mission-list要素が見つかりません');
+                return;
+            }
+
+            if (missions.length === 0) {
+                missionList.innerHTML = '<div class="loading-message">表示可能なミッションがありません</div>';
+                return;
+            }
+
+            console.log(`ミッション表示: ${missions.length}個`);
+
+            const missionHTML = missions.map(mission => {
+                const state = missionStates[mission.id] || { state: 'unaccepted', timerId: null, remainingTime: 0 };
+                const stateInfo = getMissionStateInfo(mission.id, state);
+                return createUnifiedMissionCard(mission, stateInfo);
+            }).join('');
+
+            missionList.innerHTML = missionHTML;
+
+            // Twemoji変換
+            if (typeof convertEmojis === 'function') {
+                convertEmojis(missionList);
+            }
+        }
+
+
+        async function loadTweetsData() {
+            console.log('tweets.json 読み込み中...');
+            const response = await fetch('./tweets.json');
+            if (!response.ok) {
+                throw new Error(`tweets.json読み込み失敗 (${response.status})`);
+            }
+            tweetsData = await response.json();
+            console.log('tweets.json 読み込み完了:', tweetsData);
+        }
+
+        async function loadMissionsData() {
+            console.log('missions.json 読み込み中...');
+            const response = await fetch('./missions.json');
+            if (!response.ok) {
+                throw new Error(`missions.json読み込み失敗 (${response.status})`);
+            }
+            missionsData = await response.json();
+            console.log('missions.json 読み込み完了:', missionsData);
+        }
+
+        function normalizeMissions() {
+            console.log('ミッション正規化開始');
+            normalizedMissions = [];
+
+            // tweets.json のキャラクターミッション正規化
+            if (tweetsData && tweetsData.missions) {
+                tweetsData.missions.forEach(mission => {
+                    const normalized = MissionNormalizer.fromCharacter(
+                        mission,
+                        tweetsData.characters,
+                        tweetsData.difficulties
+                    );
+                    normalizedMissions.push(normalized);
+                });
+            }
+
+            // missions.json のストーリーミッション正規化
+            if (missionsData && missionsData.stories) {
+                missionsData.stories.forEach(story => {
+                    story.chapters.forEach(chapter => {
+                        const normalized = MissionNormalizer.fromStory(chapter, story);
+                        normalizedMissions.push(normalized);
+                    });
+                });
+            }
+
+            console.log(`正規化完了: ${normalizedMissions.length}個のミッション`);
+        }
+
+        function showMissionError(message) {
+            const missionList = document.getElementById('mission-list');
+            if (missionList) {
+                missionList.innerHTML = `<div class="error-message">${message}</div>`;
+            }
+        }
+
+        // ========== 更新ボタン修正 ==========
+
+        function refreshMissions() {
+            console.log('ミッション更新ボタンクリック');
+
+            if (currentActiveTab === 'character') {
+                refreshCharacterMissions();
+            } else if (currentActiveTab === 'story') {
+                refreshStoryMissions();
+            }
+        }
+
+        function refreshCharacterMissions() {
+            console.log('キャラクターミッション更新');
+
+            if (!tweetsData || !tweetsData.missions) {
+                console.error('tweetsDataが読み込まれていません');
+                return;
+            }
+
+            // 未受諾 + 受取済み状態のミッションIDを取得（進行中・完了は保護）
+            const replaceableMissions = [];
+            for (const missionId in missionStates) {
+                const state = missionStates[missionId].state;
+                if (state === 'unaccepted' || state === 'claimed') {
+                    replaceableMissions.push(missionId);
+                }
+            }
+
+            console.log(`リフレッシュ対象: ${replaceableMissions.length}個 (進行中・完了は保護)`);
+
+            // 未受諾 + 受取済みミッションの状態をクリア
+            replaceableMissions.forEach(missionId => {
+                delete missionStates[missionId];
+            });
+
+            // ミッションを再表示
+            displayCharacterTab();
+        }
+
+        function refreshStoryMissions() {
+            console.log('ストーリーミッション更新');
+
+            // ストーリーミッションは更新の概念がないので、再表示のみ
+            displayStoryTab();
+        }
+
+        // ========== タブ切り替え修正 ==========
+        function switchMissionTab(tabName) {
+            console.log(`ミッションタブ切り替え: ${tabName}`);
+
+            // タブ名をcurrentActiveTabに対応させる
+            if (tabName === 'recommend') {
+                currentActiveTab = 'story';
+            } else if (tabName === 'character') {
+                currentActiveTab = 'character';
+            }
+
+            // タブボタンのアクティブ状態切り替え
+            document.querySelectorAll('.mission-tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            const activeButton = document.querySelector(`[data-mission-tab="${tabName}"]`);
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
+
+            // コンテンツの表示切り替え
+            displayCurrentTabMissions();
+        }
+
+        function getRandomMissions(missions, count) {
+            // 配列をシャッフル
+            const shuffled = [...missions].sort(() => Math.random() - 0.5);
+            // 指定数だけ取得（配列の長さを超えない）
+            return shuffled.slice(0, Math.min(count, shuffled.length));
+        }
+
+        // ========== ミッション状態情報取得関数（追加） ==========
+
+        function getMissionStateInfo(missionId, state) {
+            console.log(`状態情報取得: ${missionId}, state: ${state.state}, remainingTime: ${state.remainingTime}`);
+
+            const stateInfo = {
+                id: missionId,
+                state: state.state,
+                bgClass: `mission-state-${state.state}`
+            };
+
+            switch (state.state) {
+                case 'unaccepted':
+                    stateInfo.buttonText = '受諾';
+                    stateInfo.buttonClass = 'mission-btn-accept';
+
+                    // 正規化済みミッションから時間を取得
+                    const mission = normalizedMissions.find(m => m.id === missionId);
+                    if (mission) {
+                        stateInfo.timeText = `必要時間：${mission.duration}秒`;
+                    } else {
+                        stateInfo.timeText = '必要時間：不明';
+                    }
+                    break;
+
+                case 'progress':
+                    stateInfo.buttonText = '受諾中';
+                    stateInfo.buttonClass = 'mission-btn-disabled';
+                    stateInfo.timeText = `残り時間：${state.remainingTime}秒`;
+                    break;
+
+                case 'complete':
+                    stateInfo.buttonText = '報酬受取';
+                    stateInfo.buttonClass = 'mission-btn-claim';
+                    stateInfo.timeText = '完了';
+                    break;
+
+                case 'claimed':
+                    stateInfo.buttonText = '受取済';
+                    stateInfo.buttonClass = 'mission-btn-disabled';
+                    stateInfo.timeText = '受取済';
+                    break;
+
+                default:
+                    stateInfo.buttonText = '不明';
+                    stateInfo.buttonClass = 'mission-btn-disabled';
+                    stateInfo.timeText = '不明';
+                    break;
+            }
+
+            console.log(`状態情報結果: ${stateInfo.buttonText}, ${stateInfo.timeText}`);
+            return stateInfo;
+        }
+
+        // ========== 統一ミッションカード作成修正版 ==========
+        function createUnifiedMissionCard(mission, stateInfo) {
+            // アバター/アイコンの決定
+            let avatar, userName, handle, difficulty;
+
+            if (mission.type === 'character') {
+                avatar = mission.metadata.character.icon;
+                userName = mission.metadata.character.name;
+                handle = mission.metadata.character.handle;
+                difficulty = mission.metadata.difficulty;  // ⭐⭐
+            } else if (mission.type === 'story') {
+                avatar = mission.metadata.storyIcon || '📖';  // ← ストーリー別絵文字
+                userName = mission.title;
+                handle = mission.metadata.chapterTitle;    // 章タイトル
+                difficulty = `第${mission.metadata.chapterNumber}話`;  // 第2話
+            }
+
+            // 素材不足チェック
+            const canAfford = checkRequirements(mission.requirements);
+            const isDisabled = !canAfford && stateInfo.state === 'unaccepted';
+
+            // ボタンクラスの調整
+            let buttonClass = stateInfo.buttonClass;
+            let buttonDisabled = stateInfo.buttonClass === 'mission-btn-disabled';
+
+            if (isDisabled) {
+                buttonClass = 'mission-btn-disabled';
+                buttonDisabled = true;
+            }
+
+            // 要素作成
+            const missionCard = document.createElement('div');
+            missionCard.className = `mission-card ${stateInfo.bgClass}`;
+            missionCard.dataset.missionId = stateInfo.id;
+
+            // ヘッダー部分
+            const header = document.createElement('div');
+            header.className = 'mission-card-header-compact';
+            header.innerHTML = `
+        <div class="mission-avatar-small">${avatar}</div>
+        <div class="mission-name-small">${userName}</div>
+        <div class="mission-handle-small">${handle}</div>
+        <div class="mission-difficulty-small">${difficulty}</div>
+    `;
+
+            // コンテンツ部分（textContent使用）
+            const content = document.createElement('div');
+            content.className = 'mission-content';
+            content.textContent = mission.content;
+
+            // 詳細部分
+            const details = document.createElement('div');
+            details.className = 'mission-details';
+            details.innerHTML = `
+        <div class="mission-requirement">達成条件：${formatRequirements(mission.requirements)}</div>
+        <div class="mission-reward">報　　酬：${formatRewards(mission.rewards)}</div>
+    `;
+
+            // アクション部分
+            const actions = document.createElement('div');
+            actions.className = 'mission-actions';
+            actions.innerHTML = `
+        <button class="mission-btn ${buttonClass}" ${buttonDisabled ? 'disabled' : ''}>${stateInfo.buttonText}</button>
+        <div class="mission-time">${stateInfo.timeText}</div>
+    `;
+
+            // 全体を組み立て
+            missionCard.appendChild(header);
+            missionCard.appendChild(content);
+            missionCard.appendChild(details);
+            missionCard.appendChild(actions);
+
+            return missionCard.outerHTML;
+        }
+
+        // ========== 素材チェック関数（追加） ==========
+
+        function checkRequirements(requirements) {
+            if (!requirements || Object.keys(requirements).length === 0) {
+                return true; // 条件なしの場合はOK
+            }
+
+            // 必要素材のチェック（消費はしない）
+            if (requirements.cash && gameState.cash < requirements.cash) {
+                return false;
+            }
+            if (requirements.premium && gameState.premiumCoin < requirements.premium) {
+                return false;
+            }
+            if (requirements.rice && gameState.rice < requirements.rice) {
+                return false;
+            }
+            if (requirements.items) {
+                for (const item of requirements.items) {
+                    const owned = gameState.inventory[item.id] || 0;
+                    if (owned < item.amount) {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        function formatRequirements(requirements) {
+            if (!requirements || Object.keys(requirements).length === 0) {
+                return 'なし';
+            }
+
+            const parts = [];
+            if (requirements.cash) {
+                parts.push(`${RESOURCE_EMOJIS.cash}現金${(requirements.cash / 10000).toFixed(0)}万円`);
+            }
+            if (requirements.premium) {
+                parts.push(`${RESOURCE_EMOJIS.premium}PTC${requirements.premium}枚`);
+            }
+            if (requirements.rice) {
+                parts.push(`${RESOURCE_EMOJIS.rice}お米${requirements.rice}kg`);
+            }
+            if (requirements.items) {
+                requirements.items.forEach(item => {
+                    const emoji = getItemEmoji(item.id);
+                    const itemData = findItemById(item.id);
+                    if (itemData) {
+                        parts.push(`${emoji}${itemData.name}${item.amount}${getItemUnit(item.id)}`);
+                    }
+                });
+            }
+
+            return parts.join('、');
+        }
+
+        function formatRewards(rewards) {
+            const parts = [];
+            if (rewards.favo) {
+                parts.push(`${RESOURCE_EMOJIS.favo}はぁと${rewards.favo}件`);
+            }
+            if (rewards.cash) {
+                parts.push(`${RESOURCE_EMOJIS.cash}現金${(rewards.cash / 10000).toFixed(0)}万円`);
+            }
+            if (rewards.premium) {
+                parts.push(`${RESOURCE_EMOJIS.premium}PTC${rewards.premium}枚`);
+            }
+            if (rewards.rice) {
+                parts.push(`${RESOURCE_EMOJIS.rice}お米${rewards.rice}kg`);
+            }
+            if (rewards.items) {
+                rewards.items.forEach(item => {
+                    const emoji = getItemEmoji(item.id);
+                    const itemData = findItemById(item.id);
+                    if (itemData) {
+                        parts.push(`${emoji}${itemData.name}${item.amount}${getItemUnit(item.id)}`);
+                    }
+                });
+            }
+
+            return parts.join('、');
+        }
+
+        // ========== ミッションアクション処理修正 ==========
+
+        function handleMissionAction(missionId, action) {
+            console.log(`ミッションアクション: ${missionId}, ${action}`);
+
+            const state = missionStates[missionId] || { state: 'unaccepted', timerId: null, remainingTime: 0 };
+
+            switch (action) {
+                case '受諾':
+                    acceptMission(missionId);
+                    break;
+                case '報酬受取':
+                    claimMissionReward(missionId);
+                    break;
+            }
+        }
+
+        // ========== ミッション受諾処理修正 ==========
+
+        function acceptMission(missionId) {
+            console.log(`ミッション受諾: ${missionId}`);
+
+            // 正規化済みミッションを取得
+            const mission = normalizedMissions.find(m => m.id === missionId);
+            if (!mission) {
+                console.error(`ミッション見つからず: ${missionId}`);
+                return;
+            }
+
+            // 必要素材をチェック・消費
+            if (!consumeRequirements(mission.requirements)) {
+                console.log('必要素材が不足しています');
+                return;
+            }
+
+            // ミッション状態を進行中に変更
+            missionStates[missionId] = {
+                state: 'progress',
+                timerId: null,
+                remainingTime: mission.duration
+            };
+
+            console.log(`ミッション開始: ${missionId}, 所要時間: ${mission.duration}秒`);
+
+            // ヘッダー更新のみ（素材消費反映）
+            updateDisplay();
+
+            // 該当ミッションカードのみ更新
+            updateSingleMissionCard(missionId);
+        }
+        // ========== 単一ミッションカード更新関数（追加） ==========
+
+        function updateSingleMissionCard(missionId) {
+            const mission = normalizedMissions.find(m => m.id === missionId);
+            if (!mission) return;
+
+            const state = missionStates[missionId] || { state: 'unaccepted', timerId: null, remainingTime: 0 };
+            const stateInfo = getMissionStateInfo(missionId, state);
+
+            const missionCard = document.querySelector(`[data-mission-id="${missionId}"]`);
+            if (missionCard) {
+                // カード全体を更新
+                missionCard.outerHTML = createUnifiedMissionCard(mission, stateInfo);
+
+                // Twemoji変換
+                const newCard = document.querySelector(`[data-mission-id="${missionId}"]`);
+                if (newCard && typeof convertEmojis === 'function') {
+                    convertEmojis(newCard);
+                }
+
+                console.log(`単一カード更新: ${missionId}`);
+            }
+        }
+
+        // ========== 報酬受取処理修正 ==========
+
+        function claimMissionReward(missionId) {
+            console.log(`報酬受取: ${missionId}`);
+
+            // 正規化済みミッションを取得
+            const mission = normalizedMissions.find(m => m.id === missionId);
+            if (!mission) {
+                console.error(`ミッション見つからず: ${missionId}`);
+                return;
+            }
+
+            // 報酬を付与
+            giveRewards(mission.rewards);
+
+            // ミッション状態を受取済に変更
+            missionStates[missionId] = {
+                state: 'claimed',
+                timerId: null,
+                remainingTime: 0
+            };
+
+            // ミッション完了ポップアップ表示
+            let rewardText = formatRewards(mission.rewards);
+            showMissionCompletePopup(
+                `${mission.title}のミッション`,
+                rewardText
+            );
+
+            // 表示を更新
+            updateDisplay();
+            displayCurrentTabMissions();
+        }
+
+        function consumeRequirements(requirements) {
+            if (!requirements || Object.keys(requirements).length === 0) {
+                return true; // 条件なしの場合はOK
+            }
+
+            // 必要素材のチェック
+            if (requirements.cash && gameState.cash < requirements.cash) {
+                return false;
+            }
+            if (requirements.premium && gameState.premiumCoin < requirements.premium) {
+                return false;
+            }
+            if (requirements.rice && gameState.rice < requirements.rice) {
+                return false;
+            }
+            if (requirements.items) {
+                for (const item of requirements.items) {
+                    const owned = gameState.inventory[item.id] || 0;
+                    if (owned < item.amount) {
+                        return false;
+                    }
+                }
+            }
+
+            // 実際に消費
+            if (requirements.cash) gameState.cash -= requirements.cash;
+            if (requirements.premium) gameState.premiumCoin -= requirements.premium;
+            if (requirements.rice) gameState.rice -= requirements.rice;
+            if (requirements.items) {
+                for (const item of requirements.items) {
+                    gameState.inventory[item.id] -= item.amount;
+                    if (gameState.inventory[item.id] <= 0) {
+                        delete gameState.inventory[item.id];
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        function giveRewards(rewards) {
+            if (rewards.favo) gameState.favo += rewards.favo;
+            if (rewards.cash) gameState.cash += rewards.cash;
+            if (rewards.premium) gameState.premiumCoin += rewards.premium;
+            if (rewards.rice) gameState.rice += rewards.rice;
+            if (rewards.items) {
+                for (const item of rewards.items) {
+                    if (!gameState.inventory[item.id]) {
+                        gameState.inventory[item.id] = 0;
+                    }
+                    gameState.inventory[item.id] += item.amount;
+                }
+            }
+        }
+
+        function switchInfoTab(tabName) {
+            // タブボタンのアクティブ状態切り替え
+            document.querySelectorAll('.info-tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            const activeTabButton = document.querySelector(`[data-info-tab="${tabName}"]`);
+            if (activeTabButton) {
+                activeTabButton.classList.add('active');
+            }
+
+            // タブコンテンツの表示切り替え
+            document.querySelectorAll('.info-tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            const activeTabContent = document.getElementById(`info-tab-${tabName}`);
+            if (activeTabContent) {
+                activeTabContent.classList.add('active');
+            }
+        }
+
+        // ========== ゲームタブ切り替え修正 ==========
+        function switchGameTab(clickedTab) {
+            // すべてのタブボタンからactiveクラスを削除
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // クリックされたタブにactiveクラスを追加
+            clickedTab.classList.add('active');
+
+            // すべてのタブコンテンツを非表示
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // 対応するタブコンテンツを表示
+            const tabName = clickedTab.dataset.tab;
+            const targetContent = document.getElementById(`${tabName}-content`);
+            if (targetContent) {
+                targetContent.classList.add('active');
+
+                // ミッションタブの場合はミッションを読み込み
+                if (tabName === 'mission') {
+                    // 新システムで初期化
+                    if (normalizedMissions.length === 0) {
+                        loadAllMissionData();
+                    } else {
+                        displayCurrentTabMissions();
+                    }
+                }
+
+                // 株主優待タブの場合はアイテム一覧を更新
+                if (tabName === 'bot') {
+                    updateItemGrid();
+                }
+            }
+        }
+
+        function switchBottomTab(clickedTab) {
+            // すべてのタブボタンからactiveクラスを削除
+            document.querySelectorAll('.bottom-tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // クリックされたタブにactiveクラスを追加
+            clickedTab.classList.add('active');
+
+            // すべての表示コンテンツを非表示
+            document.querySelectorAll('.display-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // 対応するコンテンツを表示
+            if (clickedTab.id === 'bot-adjust-tab') {
+                document.getElementById('bot-adjust-content').classList.add('active');
+            } else if (clickedTab.id === 'order-list-tab') {
+                document.getElementById('order-list-content').classList.add('active');
+            }
+        }
+
+        function handleGameStart() {
+            const nameInput = document.getElementById('name-input');
+            if (nameInput && nameInput.value.trim()) {
+                gameState.userName = nameInput.value.trim();
+            }
+            showScreen('game');
+        }
+
+        function toggleNameInput() {
+            const nameInput = document.getElementById('name-input');
+            const nameToggle = document.getElementById('name-toggle');
+
+            if (nameInput && nameToggle) {
+                if (nameInput.disabled) {
+                    // 無効 → 有効
+                    nameInput.disabled = false;
+                    nameInput.style.background = '#fff';
+                    nameInput.style.color = '#333';
+                    nameToggle.textContent = '📝';
+                } else {
+                    // 有効 → 無効
+                    nameInput.disabled = true;
+                    nameInput.style.background = '#f5f5f5';
+                    nameInput.style.color = '#666';
+                    nameToggle.textContent = '🔒';
+                }
+            }
+        }
+
+        function showScreen(screenName) {
+            const titleScreen = document.getElementById('title-screen');
+            const gameScreen = document.getElementById('game-screen');
+
+            if (titleScreen) titleScreen.style.display = screenName === 'title' ? 'block' : 'none';
+            if (gameScreen) gameScreen.style.display = screenName === 'game' ? 'block' : 'none';
+
+            gameState.currentScreen = screenName;
+
+            if (screenName === 'game') {
+                updateDisplay();
+            }
+        }
+
+        function toggleBot() {
+            if (gameState.botEnabled) {
+                GameTimerManager.stopBot(); // 修正
+            } else {
+                GameTimerManager.startBot(); // 修正
+            }
+
+            // UI更新（既存コード）
+            const botToggle = document.getElementById('bot-toggle');
+            if (botToggle) {
+                botToggle.innerHTML = gameState.botEnabled ? 'BOT<br>ON' : 'BOT<br>OFF';
+                botToggle.className = gameState.botEnabled ? 'bot-toggle-btn active' : 'bot-toggle-btn';
+            }
+        }
+
+        function updateDisplay() {
+            // ヘッダー更新
+            document.getElementById('header-username').textContent = gameState.userName;
+            document.getElementById('header-userid').textContent = gameState.userId;
+            document.getElementById('header-premium').textContent = gameState.premiumCoin.toLocaleString();
+            document.getElementById('header-cash').textContent = gameState.cash.toLocaleString();
+            document.getElementById('header-rice').textContent = gameState.rice.toLocaleString();
+            document.getElementById('header-favo').textContent = gameState.favo.toLocaleString();
+            document.getElementById('header-voting').textContent = gameState.voting.toLocaleString();
+
+            // ステータス更新
+            document.getElementById('status-orders').textContent = debugState.orders + '件';
+            document.getElementById('status-position').textContent = debugState.positionAmount.toLocaleString() + '円';
+            document.getElementById('status-credit-margin').textContent = debugState.clicksSinceLastGacha + '回';
+
+            // 信用建て余力のパーセンテージ更新
+            const creditMargin = gameState.cash * 3.3 - debugState.positionAmount;
+            const maxPositive = gameState.cash * 3.3;
+            const marginPercentage = Math.round((creditMargin / maxPositive) * 100);
+
+            // 信用建て余力バー更新
+            updateCreditMarginBar();
+
+            // サーバーHPバー更新
+            updateServerHPBar();
+
+            // サーバーダウンUI更新
+            updateServerDownUI();
+
+            // ガチャボタン状態更新
+            updateGachaButtonState();
+
+            // 横転判定
+            checkRollover();
+        }
+        // ========== BOT調整モードシステム関数（新規追加） ==========
+
+        // BOT調整モード切り替え
+        function changeBotMode(newMode) {
+            if (!botModeSettings[newMode]) {
+                console.error(`無効なBOTモード: ${newMode}`);
+                return;
+            }
+
+            const oldMode = currentBotMode;
+            currentBotMode = newMode;
+
+            // デバッグ用効率計算
+            logEfficiency(oldMode, newMode);
+
+            // UI更新
+            updateBotModeUI();
+
+            // BOTが稼働中の場合は即座に反映
+            if (gameState.botEnabled) {
+                console.log('BOT稼働中 - タイマー再起動');
+                BotTimer.restart();
+            }
+        }
+
+        // BOTモードUI更新
+        function updateBotModeUI() {
+            document.querySelectorAll('.bot-mode-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            const activeBtn = document.querySelector(`[data-mode="${currentBotMode}"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+        }
+
+        // デバッグ用効率計算とログ出力
+        function logEfficiency(oldMode, newMode) {
+            const oldSettings = botModeSettings[oldMode];
+            const newSettings = botModeSettings[newMode];
+
+            const oldEfficiency = oldSettings.speedMultiplier * oldSettings.hitRateMultiplier;
+            const newEfficiency = newSettings.speedMultiplier * newSettings.hitRateMultiplier;
+
+            console.log(`BOTモード変更: ${oldSettings.name} → ${newSettings.name}`);
+            console.log(`速度: ${oldSettings.speedMultiplier}倍 → ${newSettings.speedMultiplier}倍`);
+            console.log(`確率: ${oldSettings.hitRateMultiplier}倍 → ${newSettings.hitRateMultiplier}倍`);
+            console.log(`効率: ${oldEfficiency.toFixed(2)}倍 → ${newEfficiency.toFixed(2)}倍`);
+        }
+
+        function updateGachaButtonState() {
+            const gachaButton = document.getElementById('gacha-button');
+            if (!gachaButton) return;
+
+            // サーバーダウン中は謝罪ボタン優先
+            if (debugState.isServerDown) {
+                return; // updateServerDownUI()で処理済み
+            }
+
+            // pre現渡状態の場合
+            if (debugState.isPreGacha) {
+                gachaButton.textContent = '現渡';
+                gachaButton.className = 'gacha-btn-unified pink';
+                gachaButton.disabled = false;
+                return;
+            }
+
+            // 注文件数に応じた状態切り替え
+            if (debugState.orders === 0) {
+                // グレーアウト状態
+                gachaButton.textContent = '現引き';
+                gachaButton.className = 'gacha-btn-unified disabled';
+                gachaButton.disabled = true;
+            } else {
+                // 黄色状態（注文件数1以上）
+                gachaButton.textContent = '現引き';
+                gachaButton.className = 'gacha-btn-unified yellow';
+                gachaButton.disabled = false;
+            }
+        }
+
+        // ========== ガチャ処理機能（Phase 2: 4段階抽選エンジン） ==========
+
+        // ガチャタイプ取得
+        function getGachaType() {
+            // 現在は"standard"固定
+            return gachaData?.defaultGacha || 'standard';
+        }
+
+        // Stage 1: カテゴリ抽選
+        function stage1_rollCategory(gachaType) {
+            const gacha = gachaData?.gachaTypes?.[gachaType];
+            if (!gacha || !gacha.stage1_categories) {
+                console.error('Stage1設定が見つかりません');
+            }
+
+            const categories = gacha.stage1_categories;
+            const totalWeight = categories.reduce((sum, cat) => sum + cat.weight, 0);
+            const random = Math.random() * totalWeight;
+
+            let cumulative = 0;
+            for (const category of categories) {
+                cumulative += category.weight;
+                if (random < cumulative) {
+                    console.log(`Stage1: ${category.type} (${category.description})`);
+                    return category.type;
+                }
+            }
+        }
+
+        // Stage 2: 数量抽選（現金・PTC・お米用）
+        function stage2_rollAmount(gachaType, categoryType) {
+            const gacha = gachaData?.gachaTypes?.[gachaType];
+            if (!gacha || !gacha.stage2_amounts || !gacha.stage2_amounts[categoryType]) {
+                console.error('Stage2設定が見つかりません');
+            }
+
+            const amounts = gacha.stage2_amounts[categoryType];
+            const totalWeight = amounts.reduce((sum, amt) => sum + amt.weight, 0);
+            const random = Math.random() * totalWeight;
+
+            let cumulative = 0;
+            for (const amount of amounts) {
+                cumulative += amount.weight;
+                if (random < cumulative) {
+                    console.log(`Stage2: ${amount.amount}${categoryType === 'rice' ? 'kg' : '円/枚'}`);
+                    return amount.amount;
+                }
+            }
+        }
+
+        // Stage 3: レアリティ抽選（アイテム用）
+        function stage3_rollRarity(gachaType) {
+            const gacha = gachaData?.gachaTypes?.[gachaType];
+            if (!gacha || !gacha.stage3_rarities) {
+                console.error('Stage3設定が見つかりません');
+            }
+
+            const rarities = gacha.stage3_rarities;
+            const totalWeight = rarities.reduce((sum, rar) => sum + rar.weight, 0);
+            const random = Math.random() * totalWeight;
+
+            let cumulative = 0;
+            for (const rarity of rarities) {
+                cumulative += rarity.weight;
+                if (random < cumulative) {
+                    console.log(`Stage3: レアリティ ${rarity.rarity}`);
+                    return rarity.rarity;
+                }
+            }
+        }
+
+        // Stage 4: 具体的なアイテム抽選（デフォルト重み100版）
+        function stage4_rollItem(gachaType, rarity) {
+            console.log(`Stage4開始: ${gachaType}ガチャ, ${rarity}レアリティ`);
+
+            const rarityItems = itemData.items.filter(item => item.rarity === rarity);
+            const gacha = gachaData.gachaTypes[gachaType];
+            const overrides = gacha.stage4_item_overrides?.[rarity] || [];
+
+            console.log(`${rarity}レアリティアイテム数: ${rarityItems.length}`);
+
+            // 全アイテムにデフォルト重み100を設定
+            const itemWeights = {};
+            rarityItems.forEach(item => {
+                itemWeights[item.id] = 100;
+            });
+
+            // overridesで個別調整
+            overrides.forEach(override => {
+                if (itemWeights[override.itemId] !== undefined) {
+                    itemWeights[override.itemId] = override.weight;
+                    console.log(`重み調整: ${override.itemId} → ${override.weight}`);
+                }
+            });
+
+            // 重み0より大きいアイテムのみを抽選対象にする
+            const candidateItems = rarityItems.filter(item => itemWeights[item.id] > 0);
+
+            // 重み付き抽選
+            const totalWeight = candidateItems.reduce((sum, item) => sum + itemWeights[item.id], 0);
+            const random = Math.random() * totalWeight;
+
+            let cumulative = 0;
+            for (const item of candidateItems) {
+                cumulative += itemWeights[item.id];
+                if (random < cumulative) {
+                    console.log(`Stage4結果: ${item.id} (${item.name}) 重み:${itemWeights[item.id]}`);
+                    return item;
+                }
+            }
+        }
+
+        // 新しいrollSingleGacha関数（4段階抽選try-catch削除）
+        function rollSingleGacha() {
+            console.log('=== ガチャ抽選開始 ===');
+
+            const gachaType = getGachaType();
+            const category = stage1_rollCategory(gachaType);
+
+            if (category === 'cash' || category === 'premium' || category === 'rice') {
+                const amount = stage2_rollAmount(gachaType, category);
+                const result = {
+                    type: category,
+                    amount: amount,
+                    name: category === 'cash' ? `現金${amount.toLocaleString()}円` :
+                        category === 'premium' ? `プレミアムコイン${amount}枚` :
+                            `お米${amount}kg`
+                };
+                console.log('抽選結果:', result);
+                return result;
+
+            } else if (category === 'item') {
+                const rarity = stage3_rollRarity(gachaType);
+                const item = stage4_rollItem(gachaType, rarity);
+                const result = { ...item, type: 'item' };
+                console.log('抽選結果:', result);
+                return result;
+            }
+        }
+
+        // アイテムIDから単位を取得
+        function getItemUnit(itemId) {
+            if (itemId.startsWith('quo_')) return '枚';     // QUOカード
+            if (itemId.startsWith('yutai_')) return '枚';   // 優待券
+            if (itemId.startsWith('cosm_')) return '個';    // 化粧品
+            return '個'; // デフォルト
+        }
+        // 数字フォーマット関数（99上限）
+        function formatCount(count) {
+            if (count >= 99) {
+                return '99';
+            }
+            return count.toString();
+        }
+        function executeGacha() {
+            const gachaCount = debugState.orders;
+            const results = [];
+
+            console.log(`ガチャ発火開始 - ${gachaCount}回抽選`);
+
+            // 注文件数分だけ抽選
+            for (let i = 0; i < gachaCount; i++) {
+                const result = rollSingleGacha();
+                if (result) {
+                    results.push(result);
+                    console.log(`${i + 1}回目:`, result.name);
+                }
+            }
+
+            // 結果を処理（アイテムと現金等を分離）
+            processGachaResults(results);
+
+            // 議決権付与（ガチャ回数分）
+            gameState.voting += gachaCount;
+            console.log(`議決権付与: +${gachaCount}個 (合計: ${gameState.voting}個)`);
+
+            // ガチャ結果ポップアップ表示
+            showGachaResult(results);
+
+            // 注文件数・建玉金額をリセット・状態復帰
+            debugState.orders = 0;
+            debugState.positionAmount = 0; // 建玉金額もリセット
+            debugState.clicksSinceLastGacha = 0; // 総アクセス数リセット
+            exitPreGachaMode();
+
+            return results;
+        }
+
+        // ガチャ結果の処理（新規追加）
+        function processGachaResults(results) {
+            for (const result of results) {
+                switch (result.type) {
+                    case 'cash':
+                        gameState.cash += result.amount;
+                        console.log(`現金 +${result.amount}円 (合計: ${gameState.cash}円)`);
+                        break;
+                    case 'premium':
+                        gameState.premiumCoin += result.amount;
+                        console.log(`PTC +${result.amount}枚 (合計: ${gameState.premiumCoin}枚)`);
+                        break;
+                    case 'rice':
+                        gameState.rice += result.amount;
+                        console.log(`お米 +${result.amount}kg (合計: ${gameState.rice}kg)`);
+                        break;
+                    case 'item':
+                        // 既存のインベントリシステムで処理
+                        if (!gameState.inventory) {
+                            gameState.inventory = {};
+                        }
+                        if (gameState.inventory[result.id]) {
+                            gameState.inventory[result.id] += 1;
+                        } else {
+                            gameState.inventory[result.id] = 1;
+                        }
+                        console.log(`アイテム +${result.name}`);
+                        break;
+                }
+            }
+
+            // 表示を更新
+            updateDisplay();
+        }
+
+        function showGachaResult(results) {
+            // 結果を集計・レアリティ別ソート
+            const summary = summarizeGachaResults(results);
+
+            // オーバーレイ作成
+            const overlay = document.createElement('div');
+            overlay.className = 'gacha-overlay';
+
+            // ポップアップ作成
+            const popup = document.createElement('div');
+            popup.className = 'gacha-result-popup';
+
+            // ポップアップ内容生成
+            popup.innerHTML = createGachaResultHTML(summary);
+
+            overlay.appendChild(popup);
+            document.body.appendChild(overlay);
+
+            // クリックで閉じる（手動のみ）
+            overlay.addEventListener('click', function () {
+                document.body.removeChild(overlay);
+            });
+        }
+
+        function summarizeGachaResults(results) {
+            const summary = {
+                cash: 0,
+                premium: 0,
+                rice: 0,
+                items: {}
+            };
+
+            for (const result of results) {
+                switch (result.type) {
+                    case 'cash':
+                        summary.cash += result.amount;
+                        break;
+                    case 'premium':
+                        summary.premium += result.amount;
+                        break;
+                    case 'rice':
+                        summary.rice += result.amount;
+                        break;
+                    case 'item':
+                        const key = `${result.rarity}-${result.id}`;
+                        if (summary.items[key]) {
+                            summary.items[key].count += 1;
+                        } else {
+                            summary.items[key] = {
+                                ...result,
+                                count: 1
+                            };
+                        }
+                        break;
+                }
+            }
+
+            return summary;
+        }
+
+        function createGachaResultHTML(summary) {
+            let html = '<div class="gacha-result-title">注文約定一覧</div>';
+
+            // 現金表示（左右分割）
+            if (summary.cash > 0) {
+                html += `<div class="gacha-result-section">`;
+                html += `<div class="gacha-item-list">`;
+                html += `<div class="gacha-item" style="display: flex; justify-content: space-between;">`;
+                html += `<span>💴　現金</span><span>${summary.cash.toLocaleString()}円</span>`;
+                html += `</div></div></div>`;
+            }
+
+            // プレミアムコイン表示（左右分割）
+            if (summary.premium > 0) {
+                html += `<div class="gacha-result-section">`;
+                html += `<div class="gacha-item-list">`;
+                html += `<div class="gacha-item" style="display: flex; justify-content: space-between;">`;
+                html += `<span>🪙　プレミアムコイン</span><span>${summary.premium.toLocaleString()}枚</span>`;
+                html += `</div></div></div>`;
+            }
+
+            // お米表示（左右分割）
+            if (summary.rice > 0) {
+                html += `<div class="gacha-result-section">`;
+                html += `<div class="gacha-item-list">`;
+                html += `<div class="gacha-item" style="display: flex; justify-content: space-between;">`;
+                html += `<span>🍙　お米</span><span>${summary.rice.toLocaleString()}kg</span>`;
+                html += `</div></div></div>`;
+            }
+
+            // アイテム表示（レアリティ別・左右分割）
+            const itemsByRarity = {};
+            for (const item of Object.values(summary.items)) {
+                if (!itemsByRarity[item.rarity]) {
+                    itemsByRarity[item.rarity] = [];
+                }
+                itemsByRarity[item.rarity].push(item);
+            }
+
+            // S, A, B, C順で表示
+            const rarities = ['S', 'A', 'B', 'C'];
+            for (const rarity of rarities) {
+                if (itemsByRarity[rarity]) {
+                    html += `<div class="gacha-result-section">`;
+                    html += `<div class="gacha-rarity-header rarity-${rarity.toLowerCase()}">${rarity}ランク</div>`;
+                    html += `<div class="gacha-item-list">`;
+
+                    for (const item of itemsByRarity[rarity]) {
+                        const emoji = item.emoji || '💳';
+                        const unit = getItemUnit(item.id);  // 単位取得
+                        html += `<div class="gacha-item" style="display: flex; justify-content: space-between;">`;
+                        html += `<span>${emoji}　${item.name}</span><span>${item.count}${unit}</span>`;
+                        html += `</div>`;
+                    }
+
+                    html += `</div></div>`;
+                }
+            }
+
+            html += '<div class="gacha-close-hint">クリックで閉じる</div>';
+            return html;
+        }
+
+        function enterPreGachaMode() {
+            debugState.isPreGacha = true;
+            updateDisplay();
+        }
+
+        function exitPreGachaMode() {
+            debugState.isPreGacha = false;
+            updateDisplay();
+        }
+
+        function updateServerHPBar() {
+            const serverHPFill = document.getElementById('server-hp-fill');
+            if (!serverHPFill) return;
+
+            // HP割合計算
+            const hpPercentage = (debugState.serverHP / debugState.maxServerHP) * 100;
+
+            // バー幅更新
+            serverHPFill.style.width = hpPercentage + '%';
+
+            // 色クラス設定
+            serverHPFill.className = 'server-hp-fill';
+            if (hpPercentage > 50) {
+                serverHPFill.classList.add('high');
+            } else if (hpPercentage > 25) {
+                serverHPFill.classList.add('medium');
+            } else {
+                serverHPFill.classList.add('low');
+            }
+        }
+
+        function updateCreditMarginBar() {
+            const creditMarginFill = document.getElementById('credit-margin-fill');
+            const creditMarginLabel = document.getElementById('credit-margin-label');
+            if (!creditMarginFill || !creditMarginLabel) return;
+
+            // 余力計算: 現金残高 × 3.3 - 建玉金額
+            const creditMargin = gameState.cash * 3.3 - debugState.positionAmount;
+            const maxPositive = gameState.cash * 3.3;
+
+            // パーセンテージ計算
+            const marginPercentage = Math.round((creditMargin / maxPositive) * 100);
+
+            // ラベル更新
+            creditMarginLabel.textContent = `信用建て余力：${marginPercentage}%`;
+
+            // バー表示用の値とクラス決定
+            let percentage;
+            let className;
+
+            if (creditMargin >= 0) {
+                // プラス領域 (0% ～ 100%) - 水色
+                percentage = Math.min((creditMargin / maxPositive) * 100, 100);
+                className = 'credit-margin-fill positive';
+            } else {
+                // マイナス領域の段階判定
+                const absPercentage = Math.abs(marginPercentage);
+                const stage = Math.floor(absPercentage / 100);
+
+                // 各段階内での進捗 (0-100%)
+                const stageProgress = absPercentage % 100;
+                percentage = stageProgress;
+
+                // 段階に応じた色設定
+                const colorClasses = [
+                    'credit-margin-fill warning',    // 0-100%: 黄色
+                    'credit-margin-fill orange',     // 100-200%: オレンジ
+                    'credit-margin-fill negative',   // 200-300%: 赤色
+                    'credit-margin-fill danger',     // 300-400%: 濃赤色
+                    'credit-margin-fill critical'    // 400-500%+: 黒色
+                ];
+
+                className = colorClasses[Math.min(stage, colorClasses.length - 1)];
+
+                // -500%超えの場合は100%固定
+                if (absPercentage >= 500) {
+                    percentage = 100;
+                }
+            }
+
+            creditMarginFill.className = className;
+            creditMarginFill.style.width = percentage + '%';
+        }
+        // ========== 株主優待ボタン切り替え機能（追加） ==========
+        function initUpgradeButtons() {
+            document.querySelectorAll('.upgrade-button').forEach(button => {
+                button.addEventListener('click', function () {
+                    const contentName = this.dataset.upgradeContent;
+
+                    // 全てのボタンからactiveクラスを削除
+                    document.querySelectorAll('.upgrade-button').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+
+                    // クリックされたボタンにactiveクラスを追加
+                    this.classList.add('active');
+
+                    // 全てのコンテンツを非表示
+                    document.querySelectorAll('.upgrade-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+
+                    // 対応するコンテンツを表示
+                    const targetContent = document.getElementById(`upgrade-content-${contentName}`);
+                    if (targetContent) {
+                        targetContent.classList.add('active');
+                    }
+                });
+            });
+        }
+        // ==========アップグレードシステム（追加） ==========
+        // アップグレードデータはupgrade.jsonに移動しました
+        // 選択されているアップグレード
+        let selectedUpgrade = 'bot_speed';
+
+        // ========== 詳細カードを更新修正版 ==========
+        function updateUpgradeDetailCard(upgradeId) {
+            if (!upgradeJsonData || !upgradeJsonData.upgrades[upgradeId]) return;
+
+            const data = upgradeJsonData.upgrades[upgradeId];
+            const currentLevel = upgradeProgress[upgradeId] || 0;
+
+            document.getElementById('detail-icon').textContent = data.icon;
+            document.getElementById('detail-name').textContent = data.name;
+            document.getElementById('detail-level').textContent = `Lv.${currentLevel} (最大：${data.maxLevel})`;
+
+            // 説明文をtextContentで設定
+            const descriptionElement = document.getElementById('detail-description');
+            if (descriptionElement) {
+                descriptionElement.textContent = data.description;
+            }
+
+            // 効果説明（ラベルなしで直接表示）
+            if (currentLevel < data.maxLevel) {
+                document.getElementById('detail-effect').textContent = data.effects.descriptions[currentLevel];
+            } else {
+                document.getElementById('detail-effect').textContent = 'MAX';
+            }
+
+            // コスト表示
+            if (currentLevel < data.maxLevel) {
+                document.getElementById('detail-cost').textContent = data.costs[currentLevel];
+            } else {
+                document.getElementById('detail-cost').textContent = '-';
+            }
+
+            // ボタン状態
+            const upgradeBtn = document.getElementById('upgrade-action-btn');
+            if (upgradeBtn) {
+                if (currentLevel >= data.maxLevel) {
+                    upgradeBtn.textContent = 'MAX';
+                    upgradeBtn.disabled = true;
+                } else if (gameState.premiumCoin < data.costs[currentLevel]) {
+                    upgradeBtn.textContent = 'コイン不足';
+                    upgradeBtn.disabled = true;
+                } else {
+                    upgradeBtn.textContent = 'アップグレード';
+                    upgradeBtn.disabled = false;
+                }
+            }
+
+            // ★ Twemoji変換を追加
+            const detailCard = document.querySelector('.upgrade-detail-card');
+            if (detailCard && typeof convertEmojis === 'function') {
+                convertEmojis(detailCard);
+            }
+        }
+
+        // グリッドアイテムの表示を更新
+        function updateUpgradeGridItem(upgradeId) {
+            const item = document.querySelector(`[data-upgrade="${upgradeId}"]`);
+            if (!item) return;
+
+            const currentLevel = upgradeProgress[upgradeId] || 0;
+            const levelElement = item.querySelector('.upgrade-item-level');
+
+            if (levelElement) {
+                levelElement.textContent = `Lv.${currentLevel}`;
+            }
+        }
+        // アップグレード実行
+        function executeUpgrade(upgradeId) {
+            if (!upgradeJsonData || !upgradeJsonData.upgrades[upgradeId]) return;
+
+            const data = upgradeJsonData.upgrades[upgradeId];
+            const currentLevel = upgradeProgress[upgradeId] || 0;
+
+            // 条件チェック
+            if (currentLevel >= data.maxLevel) {
+                alert('すでに最大レベルです！');
+                return;
+            }
+
+            if (gameState.premiumCoin < data.costs[currentLevel]) {
+                alert('プレミアムコインが足りません！');
+                return;
+            }
+
+            // アップグレード実行
+            gameState.premiumCoin -= data.costs[currentLevel];
+            upgradeProgress[upgradeId] = currentLevel + 1;
+
+            // 実際の効果適用（BOT強化の場合）
+            if (upgradeId === 'bot_speed') {
+                // JSON参照でBOT速度を設定
+                if (upgradeJsonData && upgradeJsonData.upgrades.bot_speed) {
+                    const newLevel = upgradeProgress.bot_speed || 0;
+                    if (newLevel > 0) {
+                        const speedValue = upgradeJsonData.upgrades.bot_speed.effects.values[newLevel - 1];
+                        GameTimerManager.updateBotSpeed(speedValue); // 修正
+                    } else {
+                        GameTimerManager.updateBotSpeed(1000); // 修正
+                    }
+                }
+
+                // BOTの間隔を再設定
+                if (gameState.botEnabled) {
+                    stopBot();
+                    startBot();
+                }
+            }
+
+            // 表示更新
+            updateDisplay();
+            updateUpgradeDetailCard(upgradeId);
+            updateUpgradeGridItem(upgradeId);
+
+            const newLevel = upgradeProgress[upgradeId];
+            showUpgradeSuccessPopup(`${data.icon} ${data.name}`, newLevel, data.effects.descriptions[newLevel - 1]);
+        }
+
+        // アップグレードシステム初期化
+        function initUpgradeSystem() {
+            // グリッドアイテムクリック
+            document.querySelectorAll('.upgrade-item').forEach(item => {
+                item.addEventListener('click', function () {
+                    // 全ての選択を解除
+                    document.querySelectorAll('.upgrade-item').forEach(i => i.classList.remove('selected'));
+
+                    // クリックされたアイテムを選択
+                    this.classList.add('selected');
+
+                    // 詳細カードを更新
+                    const upgradeId = this.dataset.upgrade;
+                    selectedUpgrade = upgradeId;
+                    updateUpgradeDetailCard(upgradeId);
+                });
+            });
+
+            // アップグレードボタンクリック
+            const upgradeBtn = document.getElementById('upgrade-action-btn');
+            if (upgradeBtn) {
+                upgradeBtn.addEventListener('click', function () {
+                    if (!this.disabled) {
+                        executeUpgrade(selectedUpgrade);
+                    }
+                });
+            }
+
+            // 初期表示（JSON読み込み後のみ）
+            if (upgradeJsonData) {
+                updateUpgradeDetailCard(selectedUpgrade);
+            }
+        }
+
+        // 汎用ポップアップ表示関数（クリーン版）
+        function showUniversalPopup(config) {
+            // オーバーレイ作成
+            const overlay = document.createElement('div');
+            overlay.className = 'universal-popup-overlay';
+
+            // ポップアップ作成
+            const popup = document.createElement('div');
+            popup.className = `universal-popup popup-${config.type}`;
+
+            // 内容生成
+            let content = `
+                <div class="universal-popup-title">${config.title}</div>
+            `;
+
+            if (config.customHTML) {
+                content += config.customHTML;
+            } else {
+                content += `
+                    <div class="universal-popup-content">${config.content}</div>
+                `;
+            }
+
+            // クリック無効時は「クリックで閉じる」表示を変更
+            if (config.disableClick && config.autoClose) {
+                content += '<div class="universal-popup-close-hint">自動で閉じます</div>';
+            } else {
+                content += '<div class="universal-popup-close-hint">クリックで閉じる</div>';
+            }
+
+            popup.innerHTML = content;
+            overlay.appendChild(popup);
+            document.body.appendChild(overlay);
+
+            // クリックで閉じる（無効設定がない場合のみ）
+            if (!config.disableClick) {
+                overlay.addEventListener('click', function () {
+                    if (overlay.parentNode) {
+                        document.body.removeChild(overlay);
+                    }
+                });
+            }
+
+            // 自動消去タイマー（設定されている場合）
+            if (config.autoClose) {
+                setTimeout(() => {
+                    if (overlay.parentNode) {
+                        document.body.removeChild(overlay);
+                    }
+                }, config.autoClose);
+            }
+
+            // 絵文字変換
+            if (typeof convertEmojis === 'function') {
+                convertEmojis(popup);
+            }
+        }
+
+        // アップグレード成功ポップアップ
+        function showUpgradeSuccessPopup(upgradeName, currentLevel, effect) {
+            showUniversalPopup({
+                title: "アップグレード成功！",
+                content: `
+                    <div style="font-size: 24px; margin: 10px 0;">${upgradeName}</div>
+                    <div style="font-size: 16px; font-weight: bold; color: #4caf50; margin: 10px 0;">
+                        Lv.${currentLevel - 1} → Lv.${currentLevel}
+                    </div>
+                    <div style="font-size: 14px; color: #666; margin: 10px 0;">
+                        効果: ${effect}
+                    </div>
+                `,
+                type: "success"
+            });
+        }
+
+        // サーバー倒壊エラーポップアップ
+        function showErrorPopup(title, message) {
+            showUniversalPopup({
+                title: title,
+                content: message,
+                type: "error"
+            });
+        }
+        // 横転用エラーポップアップ（クリック無効 + 2秒強制表示）
+        function showRolloverPopup(title, message) {
+            showUniversalPopup({
+                title: title,
+                content: message,
+                type: "error",
+                autoClose: 2000,    // 2秒後に自動で閉じる
+                disableClick: true  // クリック無効
+            });
+        }
+
+        // ミッション完了ポップアップ
+        function showMissionCompletePopup(missionName, reward) {
+            showUniversalPopup({
+                title: "ミッション完了！",
+                content: `
+                    <div style="font-size: 18px; margin: 10px 0;">${missionName}</div>
+                    <div style="font-size: 16px; font-weight: bold; color: #ff9800; margin: 10px 0;">
+                        報酬: ${reward}
+                    </div>
+                `,
+                type: "warning"
+            });
+        }
+
+        // ========== 横転システム（追加） ==========
+        // 横転判定・処理関数
+        function checkRollover() {
+            // 基本余力計算
+            const basicMargin = gameState.cash * 3.3 - debugState.positionAmount;
+            const maxPositive = gameState.cash * 3.3;
+            const marginPercentage = (basicMargin / maxPositive) * 100;
+
+            // 横転回避アップグレードレベル取得
+            const rolloverLevel = upgradeProgress.rollover_avoid || 0;
+            const rolloverThreshold = rolloverLevel * 100; // Lv1=100%, Lv2=200%...
+
+            // 横転条件チェック
+            const shouldRollover = marginPercentage < -rolloverThreshold;
+
+            // 横転処理
+            if (shouldRollover && debugState.orders > 0 && !debugState.isRollover) {
+                // 横転発動
+                triggerRollover();
+            } else if (debugState.orders === 0 && debugState.isRollover) {
+                // 注文が0になったら横転フラグをリセット
+                debugState.isRollover = false;
+            }
+        }
+        // 横転処理実行（ポップアップ追加版）
+        function triggerRollover() {
+            // 失効する注文件数を記録
+            const lostOrders = debugState.orders;
+
+            console.log('横転発生！注文件数:', lostOrders);
+
+            // 横転フラグ設定
+            debugState.isRollover = true;
+
+            // 注文・建玉リセット
+            debugState.orders = 0;
+            debugState.positionAmount = 0;
+
+            // 横転ポップアップ表示
+            showRolloverPopup("横転しました！", `${lostOrders}件の注文が失効しました！`);
+
+            // 表示更新
+            updateDisplay();
+        }
+        // アイテム一覧の初期化
+        function initItemList() {
+            if (!itemData || !itemData.items) {
+                console.error('アイテムデータが読み込まれていません');
+                return;
+            }
+
+            // アイテム一覧タブの初期化
+            setupItemListEvents();
+            updateItemGrid();
+        }
+
+        // アイテム一覧のイベント設定
+        function setupItemListEvents() {
+            // フィルタタブのクリック処理
+            document.addEventListener('click', function (event) {
+                if (event.target.classList.contains('filter-tab')) {
+                    // 全てのフィルタタブからactiveを削除
+                    document.querySelectorAll('.filter-tab').forEach(tab => {
+                        tab.classList.remove('active');
+                    });
+
+                    // クリックされたタブにactiveを追加
+                    event.target.classList.add('active');
+
+                    // フィルタを適用してグリッドを更新
+                    updateItemGrid();
+                }
+
+                // グリッドアイテムのクリック処理
+                if (event.target.closest('.grid-item')) {
+                    const gridItem = event.target.closest('.grid-item');
+                    const itemId = gridItem.dataset.itemId;
+
+                    if (itemId) {
+                        selectGridItem(gridItem, itemId);
+                    }
+                }
+            });
+        }
+
+        // アイテムデータの処理とソート
+        function getProcessedItems() {
+            if (!itemData || !itemData.items) return [];
+
+            // アイテムデータに所持数を追加
+            const processedItems = itemData.items.map(item => ({
+                ...item,
+                count: gameState.inventory ? (gameState.inventory[item.id] || 0) : 0
+            }));
+
+            // ソート: レアリティ順（S>A>B>C>N）→ ID順
+            const rarityOrder = { 'S': 0, 'A': 1, 'B': 2, 'C': 3, 'N': 4 };
+
+            return processedItems.sort((a, b) => {
+                const rarityCompare = rarityOrder[a.rarity] - rarityOrder[b.rarity];
+                if (rarityCompare !== 0) return rarityCompare;
+                return a.id.localeCompare(b.id);
+            });
+        }
+
+        // ID接頭辞からカテゴリを判定
+        function getItemCategory(itemId) {
+            if (itemId.startsWith('quo_')) return 'QUO';
+            if (itemId.startsWith('yutai_')) return '優待';
+            if (itemId.startsWith('fruit_') || itemId.startsWith('food_')) return '食糧';
+            if (itemId.startsWith('cosm_') || itemId.startsWith('hoge_')) return '雑品';
+            if (itemId.startsWith('story_') || itemId.startsWith('event_')) return '貴重品';
+            return '雑品'; // デフォルト
+        }
+
+        // 現在のフィルタに基づいてアイテムをフィルタリング
+        function getFilteredItems() {
+            const activeFilter = document.querySelector('.filter-tab.active');
+            if (!activeFilter) {
+                // デフォルトはQUOカテゴリ
+                return getProcessedItems().filter(item => {
+                    return getItemCategory(item.id) === 'QUO';
+                });
+            }
+
+            const filterText = activeFilter.textContent.trim();
+
+            return getProcessedItems().filter(item => {
+                return getItemCategory(item.id) === filterText;
+            });
+        }
+
+        // アイテムグリッドの更新
+        function updateItemGrid() {
+            const itemGrid = document.getElementById('item-grid');
+
+            if (!itemGrid) return;
+
+            const filteredItems = getFilteredItems();
+
+            // グリッド生成
+            itemGrid.innerHTML = filteredItems.map(item => {
+                const isOwned = item.count > 0;
+                const isSelected = ''; // 初期選択は後で実装
+
+                return `
+    <div class="grid-item rarity-${item.rarity.toLowerCase()} ${!isOwned ? 'not-owned' : ''} ${isSelected}" 
+         data-item-id="${item.id}">
+        <div class="item-row-1">
+            <div class="grid-item-emoji">${item.emoji}</div>
+            <div class="grid-item-count">${formatCount(item.count)}</div>
+        </div>
+        <div class="item-row-2">
+            <div class="grid-item-name">${item.name}</div>
+        </div>
+    </div>
+`;
+            }).join('');
+
+            // 初回表示時はquo_500を選択
+            if (filteredItems.length > 0) {
+                const defaultItem = filteredItems.find(item => item.id === 'quo_500') || filteredItems[0];
+
+                setTimeout(() => {
+                    const defaultGridItem = itemGrid.querySelector(`[data-item-id="${defaultItem.id}"]`);
+                    if (defaultGridItem) {
+                        selectGridItem(defaultGridItem, defaultItem.id);
+                    }
+                }, 100);
+            }
+        }
+
+        // グリッドアイテムの選択処理
+        function selectGridItem(gridItem, itemId) {
+            // 全ての選択を解除
+            document.querySelectorAll('.grid-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+
+            // クリックされたアイテムを選択
+            gridItem.classList.add('selected');
+
+            // 詳細カードを更新
+            updateItemDetailCard(itemId);
+        }
+
+        // ========== 詳細カードの更新修正版 ==========
+        function updateItemDetailCard(itemId) {
+            const detailCard = document.querySelector('.item-detail-card');
+            if (!detailCard) return;
+
+            const item = itemData.items.find(i => i.id === itemId);
+            if (!item) return;
+
+            const count = gameState.inventory ? (gameState.inventory[itemId] || 0) : 0;
+            const glowClass = item.rarity === 'S' ? 'glow-s' : '';
+            const unit = getItemUnit(itemId);
+
+            // 基本構造をinnerHTMLで作成
+            detailCard.innerHTML = `
+        <div class="item-detail-header">
+            <div class="item-detail-emoji ${glowClass}">${item.emoji}</div>
+            <div class="item-detail-info">
+                <div class="item-detail-row">
+                    <div class="item-detail-name">${item.name}</div>
+                    <div class="item-detail-rarity rarity-${item.rarity.toLowerCase()}">${item.rarity}ランク</div>
+                </div>
+                <div class="item-detail-row">
+                    <div class="item-detail-value">価値：${item.value.toLocaleString()}円</div>
+                    <div class="item-detail-count">所持数：${count}${unit}</div>
+                </div>
+            </div>
+        </div>
+        <div class="item-detail-memo"></div>
+    `;
+
+            // メモ部分のみtextContentで設定
+            const memoElement = detailCard.querySelector('.item-detail-memo');
+            if (memoElement) {
+                memoElement.textContent = item.memo || `${item.name}の説明がここに表示されます。`;
+            }
+
+            // Twemoji変換
+            convertEmojis(detailCard);
+        }
+
+        // ========== アプリ起動 ==========
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+
+</html>
+<!-- ========== ブロック3 終点 ========== -->

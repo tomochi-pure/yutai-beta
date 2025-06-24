@@ -1,0 +1,348 @@
+{
+  "defaultGacha": "standard",
+  "gachaTypes": {
+    "standard": {
+      "name": "通常ガチャ",
+      "description": "基本的なガチャです。現金、プレミアムコイン、お米、アイテムが排出されます。",
+      "stage1_categories": [
+        {
+          "type": "cash",
+          "weight": 0,
+          "description": "現金"
+        },
+        {
+          "type": "premium",
+          "weight": 10,
+          "description": "プレミアムコイン"
+        },
+        {
+          "type": "rice",
+          "weight": 10,
+          "description": "お米"
+        },
+        {
+          "type": "item",
+          "weight": 100,
+          "description": "アイテム各種"
+        }
+      ],
+      "stage2_amounts": {
+        "cash": [
+          {
+            "amount": 100000,
+            "weight": 1,
+            "description": "10万円"
+          },
+          {
+            "amount": 200000,
+            "weight": 1,
+            "description": "20万円"
+          }
+        ],
+        "premium": [
+          {
+            "amount": 10000,
+            "weight": 10,
+            "description": "testes"
+          },
+          {
+            "amount": 1000,
+            "weight": 100,
+            "description": ""
+          }
+        ],
+        "rice": [
+          {
+            "amount": 1,
+            "weight": 70,
+            "description": "1kg"
+          },
+          {
+            "amount": 2,
+            "weight": 25,
+            "description": "2kg"
+          },
+          {
+            "amount": 3,
+            "weight": 5,
+            "description": "3kg"
+          }
+        ]
+      },
+      "stage3_rarities": [
+        {
+          "rarity": "S",
+          "weight": 10,
+          "description": "最高レア"
+        },
+        {
+          "rarity": "A",
+          "weight": 20,
+          "description": "高レア"
+        },
+        {
+          "rarity": "B",
+          "weight": 30,
+          "description": "中レア"
+        },
+        {
+          "rarity": "C",
+          "weight": 40,
+          "description": "低レア"
+        },
+        {
+          "rarity": "N",
+          "weight": 0,
+          "description": ""
+        }
+      ],
+      "stage4_item_overrides": {
+        "S": [
+          {
+            "itemId": "quo_10000",
+            "weight": 200
+          }
+        ],
+        "A": [
+          {
+            "itemId": "quo_5000",
+            "weight": 200
+          }
+        ],
+        "B": [
+          {
+            "itemId": "quo_3000",
+            "weight": 200
+          },
+          {
+            "itemId": "quo_2000",
+            "weight": 200
+          }
+        ],
+        "C": [
+          {
+            "itemId": "quo_1000",
+            "weight": 200
+          },
+          {
+            "itemId": "quo_500",
+            "weight": 1000
+          }
+        ]
+      }
+    },
+    "premium": {
+      "name": "プレミアムガチャ",
+      "description": "アイテム排出率が高い特別なガチャです。",
+      "stage1_categories": [
+        {
+          "type": "cash",
+          "weight": 20,
+          "description": "現金"
+        },
+        {
+          "type": "premium",
+          "weight": 15,
+          "description": "プレミアムコイン"
+        },
+        {
+          "type": "rice",
+          "weight": 15,
+          "description": "お米"
+        },
+        {
+          "type": "item",
+          "weight": 50,
+          "description": "アイテム各種"
+        }
+      ],
+      "stage2_amounts": {
+        "cash": [
+          {
+            "amount": 200000,
+            "weight": 40,
+            "description": "20万円"
+          },
+          {
+            "amount": 500000,
+            "weight": 35,
+            "description": "50万円"
+          },
+          {
+            "amount": 1000000,
+            "weight": 25,
+            "description": "100万円"
+          }
+        ],
+        "premium": [
+          {
+            "amount": 20,
+            "weight": 50,
+            "description": "20枚"
+          },
+          {
+            "amount": 50,
+            "weight": 35,
+            "description": "50枚"
+          },
+          {
+            "amount": 100,
+            "weight": 15,
+            "description": "100枚"
+          }
+        ],
+        "rice": [
+          {
+            "amount": 2,
+            "weight": 60,
+            "description": "2kg"
+          },
+          {
+            "amount": 3,
+            "weight": 30,
+            "description": "3kg"
+          },
+          {
+            "amount": 5,
+            "weight": 10,
+            "description": "5kg"
+          }
+        ]
+      },
+      "stage3_rarities": [
+        {
+          "rarity": "S",
+          "weight": 5,
+          "description": "最高レア（確率UP）"
+        },
+        {
+          "rarity": "A",
+          "weight": 25,
+          "description": "高レア（確率UP）"
+        },
+        {
+          "rarity": "B",
+          "weight": 35,
+          "description": "中レア"
+        },
+        {
+          "rarity": "C",
+          "weight": 35,
+          "description": "低レア"
+        }
+      ],
+      "stage4_item_overrides": {
+        "S": [
+          {
+            "itemId": "quo_10000",
+            "weight": 2
+          }
+        ],
+        "A": [
+          {
+            "itemId": "quo_5000",
+            "weight": 2
+          }
+        ]
+      }
+    },
+    "debug": {
+      "name": "デバッグガチャ",
+      "description": "開発・テスト用のガチャです。高確率でレアアイテムが出現します。",
+      "stage1_categories": [
+        {
+          "type": "cash",
+          "weight": 10,
+          "description": "現金"
+        },
+        {
+          "type": "premium",
+          "weight": 10,
+          "description": "プレミアムコイン"
+        },
+        {
+          "type": "rice",
+          "weight": 10,
+          "description": "お米"
+        },
+        {
+          "type": "item",
+          "weight": 70,
+          "description": "アイテム各種（高確率）"
+        }
+      ],
+      "stage2_amounts": {
+        "cash": [
+          {
+            "amount": 1000000,
+            "weight": 100,
+            "description": "100万円固定"
+          }
+        ],
+        "premium": [
+          {
+            "amount": 100,
+            "weight": 100,
+            "description": "100枚固定"
+          }
+        ],
+        "rice": [
+          {
+            "amount": 5,
+            "weight": 100,
+            "description": "5kg固定"
+          }
+        ]
+      },
+      "stage3_rarities": [
+        {
+          "rarity": "S",
+          "weight": 40,
+          "description": "最高レア（デバッグ用高確率）"
+        },
+        {
+          "rarity": "A",
+          "weight": 30,
+          "description": "高レア（デバッグ用高確率）"
+        },
+        {
+          "rarity": "B",
+          "weight": 20,
+          "description": "中レア"
+        },
+        {
+          "rarity": "C",
+          "weight": 10,
+          "description": "低レア"
+        }
+      ],
+      "stage4_item_overrides": {
+        "S": [
+          {
+            "itemId": "quo_10000",
+            "weight": 10
+          }
+        ]
+      }
+    }
+  },
+  "_metadata": {
+    "version": "3.0.0",
+    "created": "2025-06-23",
+    "description": "yutai-x ガチャシステム設定ファイル (デフォルト重み100版)",
+    "changes": [
+      "デフォルト重みを100に変更",
+      "overridesは特別扱いしたいアイテムのみ記載",
+      "未記載アイテムは自動的に重み100で排出"
+    ],
+    "notes": [
+      "defaultGacha: index.htmlが呼び出すデフォルトのガチャ種類",
+      "stage1: カテゴリ抽選（現金・コイン・お米・アイテム）",
+      "stage2: amount抽選（現金・コイン・お米の場合）",
+      "stage3: レアリティ抽選（アイテムの場合）",
+      "stage4: 同一レアリティ内アイテム抽選（基本重み100、overridesで調整）",
+      "weight: 数値が大きいほど出やすい（相対的な重み）",
+      "stage4_item_overrides: 指定されていないアイテムは重み100（デフォルト）、特別扱いしたいアイテムのみ記載"
+    ]
+  }
+}

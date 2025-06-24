@@ -1,0 +1,420 @@
+{
+  "items": [
+    {
+      "id": "quo_10000",
+      "name": "QUOカード10,000円",
+      "value": 10000,
+      "rarity": "S",
+      "emoji": "💳",
+      "memo": "QUOカード10,000円\nなんでも買える"
+    },
+    {
+      "id": "quo_5000",
+      "name": "QUOカード5,000円",
+      "value": 5000,
+      "rarity": "A",
+      "emoji": "💳",
+      "memo": "QUOカード5,000円\nなんでも買える"
+    },
+    {
+      "id": "quo_3000",
+      "name": "QUOカード3,000円",
+      "value": 3000,
+      "rarity": "B",
+      "emoji": "💳",
+      "memo": "QUOカード3,000円\n財布のイツメン"
+    },
+    {
+      "id": "quo_2000",
+      "name": "QUOカード2,000円",
+      "value": 2000,
+      "rarity": "B",
+      "emoji": "💳",
+      "memo": "QUOカード2,000円\n坐骨"
+    },
+    {
+      "id": "quo_1000",
+      "name": "QUOカード1,000円",
+      "value": 1000,
+      "rarity": "C",
+      "emoji": "💳",
+      "memo": "QUOカード1,000円\n坐骨神経痛乙"
+    },
+    {
+      "id": "quo_500",
+      "name": "QUOカード500円",
+      "value": 500,
+      "rarity": "C",
+      "emoji": "💳",
+      "memo": "QUOカード500円\n店員レベリング用"
+    },
+    {
+      "id": "yutai_ramen",
+      "name": "ラーメン食事券",
+      "value": 1000,
+      "rarity": "C",
+      "emoji": "🍜",
+      "memo": "ラーメンお食事券\nｽﾞｿﾞｯｽﾞｿﾞｿﾞｯｿﾞｿﾞｿﾞﾝ"
+    },
+    {
+      "id": "yutai_panc",
+      "name": "パンケーキ食事券",
+      "value": 2000,
+      "rarity": "A",
+      "emoji": "🥞",
+      "memo": "パンケーキお食事券\nサニーのサイドで気分UP"
+    },
+    {
+      "id": "yutai_hotel",
+      "name": "ホテル宿泊券",
+      "value": 20000,
+      "rarity": "A",
+      "emoji": "🏨",
+      "memo": "ホテル宿泊券\n最終日リソルで絶頂しがち"
+    },
+    {
+      "id": "yutai_lovehotel",
+      "name": "ホテル宿泊券",
+      "value": 20000,
+      "rarity": "S",
+      "emoji": "🏩",
+      "memo": "高級ホテル宿泊券\n名義が増えるかもしれない"
+    },
+    {
+      "id": "yutai_ice",
+      "name": "アイス無料券",
+      "value": 500,
+      "rarity": "C",
+      "emoji": "🍦",
+      "memo": "アイス無料券\nハロハロは交換できない"
+    },
+    {
+      "id": "yutai_teiki",
+      "name": "株主優待定期券",
+      "value": 30000,
+      "rarity": "S",
+      "emoji": "🚅",
+      "memo": "電車の定期券\n（電車通ってるんですか定期）"
+    },
+    {
+      "id": "yutai_kippu",
+      "name": "株主優待乗車券",
+      "value": 1000,
+      "rarity": "C",
+      "emoji": "🚃",
+      "memo": "電車の乗車券（切符）\n（電車通ってるんですか定期）"
+    },
+    {
+      "id": "yutai_onsen",
+      "name": "温泉優待券",
+      "value": 1000,
+      "rarity": "C",
+      "emoji": "♨",
+      "memo": "温泉優待券\n極楽に招かれます"
+    },
+    {
+      "id": "yutai_onsen_nurunuru",
+      "name": "温泉優待券",
+      "value": 10000,
+      "rarity": "S",
+      "emoji": "♨",
+      "memo": "ヌルヌル温泉優待券\n独身男性用"
+    },
+    {
+      "id": "yutai_mcd",
+      "name": "ハンバーガー無料券",
+      "value": 1000,
+      "rarity": "C",
+      "emoji": "🍔",
+      "memo": "ハンバーガー無料券\n（お前トマトリプル言いたいだけやろ定期）"
+    },
+    {
+      "id": "yutai_tako",
+      "name": "たこやき無料券",
+      "value": 1500,
+      "rarity": "B",
+      "emoji": "🐙",
+      "memo": "たこやき無料券\nそこまでしてたこやき食べたいんかと"
+    },
+    {
+      "id": "yutai_miya",
+      "name": "ステーキ食事券",
+      "value": 20000,
+      "rarity": "A",
+      "emoji": "🥩",
+      "memo": "ステーキ食事券\n逆日歩の味がする"
+    },
+    {
+      "id": "yutai_susi",
+      "name": "お寿司食事券",
+      "value": 3000,
+      "rarity": "B",
+      "emoji": "🍣",
+      "memo": "お寿司優待券\nテイクアウトのQooゼリーがオススメ"
+    },
+    {
+      "id": "yutai_cafe",
+      "name": "カフェ優待券",
+      "value": 2000,
+      "rarity": "C",
+      "emoji": "☕",
+      "memo": "カフェ優待券\n優待民がモーニングでイキりがち"
+    },
+    {
+      "id": "yutai_izakaya",
+      "name": "居酒屋優待券",
+      "value": 4000,
+      "rarity": "A",
+      "emoji": "🍻",
+      "memo": "居酒屋優待券\n独身男性がオフ会でイキりがち"
+    },
+    {
+      "id": "yutai_usagi",
+      "name": "子供用品優待券",
+      "value": 3000,
+      "rarity": "B",
+      "emoji": "🐇",
+      "memo": "子供用品の優待券\n独身男性が取るのはマナー違反です"
+    },
+    {
+      "id": "yutai_temu",
+      "name": "塾の優待券",
+      "value": 5000,
+      "rarity": "A",
+      "emoji": "🎫",
+      "memo": "塾の優待券\n中学受験の必須アイテム"
+    },
+    {
+      "id": "yutai_cake",
+      "name": "ケーキ優待券",
+      "value": 3000,
+      "rarity": "B",
+      "emoji": "🍰",
+      "memo": "ケーキ優待券\nデブ活必須アイテム"
+    },
+    {
+      "id": "cosm_kirara",
+      "name": "おめめキラキラ",
+      "value": 4864,
+      "rarity": "C",
+      "emoji": "👀",
+      "memo": "リッドがキラキラするやつ\n化粧箱に囚人番号付き"
+    },
+    {
+      "id": "cosm_kosika",
+      "name": "化粧水",
+      "value": 2000,
+      "rarity": "B",
+      "emoji": "🫧",
+      "memo": "こしこし化粧水セット\n仄かに足の裏の匂いがする"
+    },
+    {
+      "id": "cosm_taya",
+      "name": "シャンプー",
+      "value": 1760,
+      "rarity": "B",
+      "emoji": "🧴",
+      "memo": "緑色のシャンプー\nりんごの匂いがする"
+    },
+    {
+      "id": "cosm_roze",
+      "name": "ハンドクリーム",
+      "value": 1100,
+      "rarity": "B",
+      "emoji": "💄",
+      "memo": "ローズなハンドクリーム\nバラの匂いがする"
+    },
+    {
+      "id": "cosm_yaman",
+      "name": "化粧水",
+      "value": 4000,
+      "rarity": "B",
+      "emoji": "🫧",
+      "memo": "化粧水セット\nミネラルがオンリーで黄色いやつがオススメ"
+    },
+    {
+      "id": "cosm_pef",
+      "name": "オールインワンジェル",
+      "value": 3000,
+      "rarity": "B",
+      "emoji": "🫧",
+      "memo": "オールインワンジェルなやつ\nパーフェクトな１つ"
+    },
+    {
+      "id": "cosm_dr",
+      "name": "高級ドライヤー",
+      "value": 10000,
+      "rarity": "A",
+      "emoji": "🚿",
+      "memo": "高級ドライヤー\n逆日歩の嵐が吹き荒れます"
+    },
+    {
+      "id": "yutai_1day_sanrio",
+      "name": "SPL1dayパス",
+      "value": 3000,
+      "rarity": "A",
+      "emoji": "🎟️",
+      "memo": "SPLの1dayパス\nクロミちゃん推し"
+    },
+    {
+      "id": "yutai_1day_uma",
+      "name": "TSL1dayパス",
+      "value": 3000,
+      "rarity": "A",
+      "emoji": "🎟️",
+      "memo": "TSLの1dayパス\nウマ娘もニッコリ"
+    },
+    {
+      "id": "yutai_1day_hawai",
+      "name": "ハワイｱﾝ1dayパス",
+      "value": 3000,
+      "rarity": "A",
+      "emoji": "🎟️",
+      "memo": "フォイヤーダンスで踊り狂うにゃ\nココ姉さんと写真も撮れるよ"
+    },
+    {
+      "id": "yutai_1day_dis",
+      "name": "夢の国1dayパス",
+      "value": 5000,
+      "rarity": "A",
+      "emoji": "🎟️",
+      "memo": "夢の国（大笑い）1dayパス\n株価対策でバラマキがち"
+    },
+    {
+      "id": "story_napo",
+      "name": "ナポレオン金貨",
+      "value": 200000,
+      "rarity": "N",
+      "emoji": "🪙",
+      "memo": "それは純粋な恋の話\n枕元でいつも貴方を照らします"
+    },
+    {
+      "id": "story_bokuto",
+      "name": "木刀（迫真）",
+      "value": 2980,
+      "rarity": "N",
+      "emoji": "⚔️",
+      "memo": "強盗対策で一家に一刀！\nモン下生は必携でしょ！"
+    },
+    {
+      "id": "story_zexy",
+      "name": "婚姻届",
+      "value": 1,
+      "rarity": "N",
+      "emoji": "📜",
+      "memo": "愛する人と結ばれます（名義が増えます）\n条件を満たせば離婚することも可能です"
+    },
+    {
+      "id": "story_kodomo",
+      "name": "出生届",
+      "value": 1,
+      "rarity": "N",
+      "emoji": "📜",
+      "memo": "子供が生まれました。\n名義が増えます。"
+    },
+    {
+      "id": "story_rikon",
+      "name": "離婚届",
+      "value": 1,
+      "rarity": "N",
+      "emoji": "📜",
+      "memo": "かつて愛していた人と別れます\n親権は母親が獲得します"
+    },
+    {
+      "id": "food_butap",
+      "name": "豚丸P",
+      "value": 3000,
+      "rarity": "A",
+      "emoji": "🐖",
+      "memo": "３年修行したら選べるヤツ\nチーズ入れて焼くだけで優勝🐴ウンマウマ"
+    },
+    {
+      "id": "story_kadai",
+      "name": "取引の制限について",
+      "value": 1,
+      "rarity": "N",
+      "emoji": "📨",
+      "memo": "過大アクセスを検知いたしました。\nお客様のお取引を制限させていただきます。"
+    },
+    {
+      "id": "yutai_drag",
+      "name": "ドラッグストア優待券",
+      "value": 5000,
+      "rarity": "A",
+      "emoji": "💊",
+      "memo": "ドラッグストアの優待券\nなんでも売ってる"
+    },
+    {
+      "id": "story_sato",
+      "name": "辞令書",
+      "value": 1,
+      "rarity": "N",
+      "emoji": "📄",
+      "memo": "nk証券の辞令書\n佐藤が昇進（左遷）します"
+    },
+    {
+      "id": "kinken_jef",
+      "name": "グルメカード",
+      "value": 500,
+      "rarity": "C",
+      "emoji": "💵",
+      "memo": "色んなレストランで使えるカード\nお腹も財布も膨らみます"
+    },
+    {
+      "id": "kinken_tamago",
+      "name": "たまご券",
+      "value": 100,
+      "rarity": "A",
+      "emoji": "💶",
+      "memo": "全国共通たまご券\nレジェンド級の店員じゃないと扱えない"
+    },
+    {
+      "id": "kinken_yg",
+      "name": "ヨーグルト券",
+      "value": 570,
+      "rarity": "A",
+      "emoji": "💷",
+      "memo": "ヨーグルト交換券\nハイレベル店員じゃないと扱えない"
+    },
+    {
+      "id": "kinken_gift",
+      "name": "ギフト券",
+      "value": 1000,
+      "rarity": "B",
+      "emoji": "💴",
+      "memo": "ギフト券\nほぼ現金"
+    },
+    {
+      "id": "fruit_mikan",
+      "name": "紅まどぅんな",
+      "value": 3000,
+      "rarity": "A",
+      "emoji": "🍊",
+      "memo": "美味しいみかん\nあまりの美味しさに大口アングリオですよ"
+    },
+    {
+      "id": "fruit_budo",
+      "name": "ピヲーネ",
+      "value": 3000,
+      "rarity": "A",
+      "emoji": "🍇",
+      "memo": "食べたら幸福になれそう\nピオーネ食おーね"
+    },
+    {
+      "id": "fruit_amo",
+      "name": "あまうぉう",
+      "value": 3000,
+      "rarity": "A",
+      "emoji": "🍓",
+      "memo": "大きないちご\nウンマスギ🐴🐴"
+    },
+    {
+      "id": "food_pankan",
+      "name": "パンの缶詰",
+      "value": 2000,
+      "rarity": "A",
+      "emoji": "🍞",
+      "memo": "災害用備蓄パンの缶詰\n可愛い入れ歯のキャラが描かれている"
+    }
+  ]
+}

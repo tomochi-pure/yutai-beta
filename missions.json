@@ -1,0 +1,164 @@
+{
+  "stories": [
+    {
+      "storyId": "company",
+      "title": "佐藤の出世物語",
+      "icon": "👨‍💼",
+      "description": "在庫調達係から頭取への道のり",
+      "totalChapters": 8,
+      "chapters": [
+        {
+          "id": "company_001",
+          "chapterNumber": 1,
+          "title": "唐突な左遷",
+          "content": "社内政治に負けて在庫主任に左遷\n歴戦の乞食相手に炎上せず任期を全うしなければ…",
+          "duration": 10,
+          "requirements": {},
+          "rewards": {
+            "cash": 300000,
+            "favo": 30
+          },
+          "unlockConditions": []
+        },
+        {
+          "id": "company_002",
+          "chapterNumber": 2,
+          "title": "叩かれてワロタ",
+          "content": "頑張ってレア在庫を調達したのに昼休み売り禁\nSNSでボロクソに叩かれててワロタ…",
+          "duration": 10,
+          "requirements": {
+            "items": [
+              {
+                "id": "yutai_tako",
+                "amount": 1
+              }
+            ]
+          },
+          "rewards": {
+            "cash": 300000,
+            "favo": 50
+          },
+          "unlockConditions": [
+            "company_001"
+          ]
+        },
+        {
+          "id": "company_003",
+          "chapterNumber": 3,
+          "title": "餌やり",
+          "content": "20時過ぎに在庫放流するのワロタ\nタイムカードみたいなもんだからこれ",
+          "duration": 10,
+          "requirements": {},
+          "rewards": {
+            "cash": 300000,
+            "favo": 100,
+            "items": [
+              {
+                "id": "quo_5000",
+                "amount": 1
+              },
+              {
+                "id": "quo_3000",
+                "amount": 1
+              }
+            ]
+          },
+          "unlockConditions": [
+            "company_002"
+          ]
+        },
+        {
+          "id": "company_004",
+          "chapterNumber": 4,
+          "title": "電話きてワロタ",
+          "content": "罠QUO銘柄50万株調達したら会社から泣きの電話きてワロタ\nそれ社長が貸株してるやつやで",
+          "duration": 10,
+          "requirements": {},
+          "rewards": {
+            "cash": 300000,
+            "favo": 100,
+            "items": [
+              {
+                "id": "yutai_10000",
+                "amount": 10
+              }
+            ]
+          },
+          "unlockConditions": [
+            "company_003"
+          ]
+        },
+        {
+          "id": "company_005",
+          "chapterNumber": 5,
+          "title": "エゴサ",
+          "content": "エゴサするの楽しすぎワロタ\nワイ課長ちゃうで",
+          "duration": 10,
+          "requirements": {},
+          "rewards": {
+            "cash": 10000,
+            "favo": 50
+          },
+          "unlockConditions": [
+            "company_004"
+          ]
+        },
+        {
+          "id": "company_006",
+          "chapterNumber": 6,
+          "title": "サーバー落ちてワロタ",
+          "content": "権利日にサーバー落ちて笑ってたらワイのせいにされて草\nそんなんクソ乞食に言ってくり～",
+          "duration": 10,
+          "requirements": {
+            "items": [
+              {
+                "id": "story_kadai",
+                "amount": 1
+              }
+            ]
+          },
+          "rewards": {
+            "favo": 100
+          },
+          "unlockConditions": [
+            "company_005"
+          ]
+        },
+        {
+          "id": "company_007",
+          "chapterNumber": 7,
+          "title": "内示もろたで",
+          "content": "課長代理の内示もろたで\nワイの時代到来ですよｸｫﾚは…",
+          "duration": 10,
+          "requirements": {},
+          "rewards": {
+            "favo": 200,
+            "items": [
+              {
+                "id": "story_sato",
+                "amount": 1
+              }
+            ]
+          },
+          "unlockConditions": [
+            "company_006"
+          ]
+        },
+        {
+          "id": "company_008",
+          "chapterNumber": 8,
+          "title": "古事記",
+          "content": "今日はbot一掃デーや\nたくさん補充して一網打尽やで",
+          "duration": 17280,
+          "requirements": {},
+          "rewards": {
+            "favo": 10
+          },
+          "unlockConditions": [
+            "company_007"
+          ]
+        }
+      ]
+    }
+  ]
+}
