@@ -2136,7 +2136,13 @@
                             </div>
                         </div>
                     </div>
-
+<!-- デバッグボタンエリア -->
+<div class="debug-controls">
+    <button class="debug-btn increase" id="debug-increase">建玉+1000万</button>
+    <button class="debug-btn decrease" id="debug-decrease">建玉-1000万</button>
+    <button class="debug-btn reset" id="debug-reset">リセット</button>
+    <button class="debug-btn increase" id="debug-orders">注文件数+10</button>
+</div>
                 </div>
 
                 <!-- 株主優待タブの内容 -->
@@ -2947,6 +2953,12 @@ ${gameUrl}
             const nameInput = document.getElementById('name-input');
             const marshmallowLink = document.getElementById('marshmallow-link');
             const botToggle = document.getElementById('bot-toggle');
+            // デバッグボタン（この部分を削除）
+const debugIncrease = document.getElementById('debug-increase');
+const debugDecrease = document.getElementById('debug-decrease');
+const debugReset = document.getElementById('debug-reset');
+const debugVoting = document.getElementById('debug-voting');
+const debugOrders = document.getElementById('debug-orders');
 
             if (startButton) {
                 startButton.addEventListener('click', handleGameStart);
@@ -2975,6 +2987,55 @@ ${gameUrl}
                     botToggle.className = gameState.botEnabled ? 'bot-toggle-btn active' : 'bot-toggle-btn';
                 });
             }
+// デバッグボタンイベント（この部分を削除）
+if (debugIncrease) {
+    debugIncrease.addEventListener('click', function () {
+        debugState.positionAmount += 10000000;
+        if (debugState.positionAmount < 0) {
+            debugState.positionAmount = 0;
+        }
+        updateDisplay();
+    });
+}
+
+if (debugDecrease) {
+    debugDecrease.addEventListener('click', function () {
+        debugState.positionAmount -= 10000000;
+        if (debugState.positionAmount < 0) {
+            debugState.positionAmount = 0;
+        }
+        updateDisplay();
+    });
+}
+
+if (debugReset) {
+    debugReset.addEventListener('click', function () {
+        debugState.positionAmount = debugState.initialPositionAmount;
+        debugState.serverHP = debugState.maxServerHP;
+        debugState.isServerDown = false;
+        debugState.isPreGacha = false;
+        gameState.inventory = {}; // インベントリもリセット
+        gameState.rice = 0;       // お米もリセット
+        gameState.favo = 0;       // はぁともリセット
+        gameState.voting = 0;   // フォロワーもリセット
+        updateServerDownUI();
+        updateDisplay();
+    });
+}
+
+if (debugVoting) {
+    debugVoting.addEventListener('click', function () {
+        gameState.voting += 100;
+        updateDisplay();
+    });
+}
+
+if (debugOrders) {
+    debugOrders.addEventListener('click', function () {
+        debugState.orders += 10;
+        updateDisplay();
+    });
+}
 
             // 情報タブ切り替え
             document.querySelectorAll('.info-tab-button').forEach(button => {
