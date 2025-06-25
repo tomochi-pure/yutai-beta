@@ -499,6 +499,12 @@
             border: 2px solid #e74c3c;
         }
 
+        .result-popup.close {
+            background: white;
+            color: #333;
+            border: 2px solid #ccc;
+        }
+
         @keyframes fadeOut {
             0% {
                 opacity: 1;
@@ -1531,10 +1537,9 @@
         }
 
         .universal-popup-content {
-            font-size: 16px;
+            font-size: 14px;
             line-height: 1.6;
             color: #333;
-            margin-bottom: 15px;
         }
 
         .universal-popup-close-hint {
@@ -1566,6 +1571,32 @@
             background: #ff9800;
             /* オレンジ色 - ミッション用 */
         }
+
+        /* ========== Twitterシェアボタン専用CSS（追加） ========== */
+        .twitter-btn {
+            background: #1d9bf0;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 14px;
+            border-radius: 15px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 15px;
+            transition: background 0.3s;
+            text-decoration: none;
+        }
+
+        .twitter-btn:hover {
+            background: #1a8cd8;
+        }
+
+        .twitter-btn .twitter-icon {
+            font-size: 16px;
+        }
+
 
         /* ========== アイテム一覧タブ専用CSS（追加） ========== */
         /* 詳細カード */
@@ -1972,7 +2003,7 @@
                             </div>
                             <div class="ranking-item">
                                 <span class="rank">2位</span>
-                                <span class="player-name">優待マスター</span>
+                                <span class="player-name">あっちのモンさん</span>
                                 <span class="score">980,000,000円</span>
                             </div>
                         </div>
@@ -2104,15 +2135,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- デバッグボタンエリア -->
-                    <div class="debug-controls">
-                        <button class="debug-btn increase" id="debug-increase">建玉+1000万</button>
-                        <button class="debug-btn decrease" id="debug-decrease">建玉-1000万</button>
-                        <button class="debug-btn reset" id="debug-reset">リセット</button>
-                        <button class="debug-btn increase" id="debug-voting">議決権+100個</button>
-                        <button class="debug-btn increase" id="debug-orders">注文件数+10</button>
                     </div>
 
                 </div>
@@ -2285,7 +2307,7 @@
                                 <!-- 中部：フィルタ -->
                                 <div class="filter-container">
                                     <div class="filter-tabs">
-                                        <div class="filter-tab active">QUO</div>
+                                        <div class="filter-tab active">金券</div>
                                         <div class="filter-tab">優待</div>
                                         <div class="filter-tab">食糧</div>
                                         <div class="filter-tab">雑品</div>
@@ -2334,10 +2356,40 @@
                     </div>
                 </div>
 
-                <!-- 設定タブの内容 -->
+                <!-- 設定タブ -->
                 <div id="settings-content" class="tab-content">
                     <div class="mission-tab-content">
-                        設定タブ - 準備中
+                        <div style="padding: 20px; text-align: center; color: #666;">
+                            <h3 style="color: #ff9800; margin-bottom: 20px;">⚠️ ベータテスト版について</h3>
+
+                            <div
+                                style="background: #fff3e0; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: left;">
+                                <p style="margin-bottom: 10px;">現在このゲームはベータテスト中です。</p>
+                                <p style="margin-bottom: 10px;">• セーブ機能はありません</p>
+                                <p style="margin-bottom: 10px;">• ページをリロードするとデータがリセットされます</p>
+                            </div>
+
+                            <div
+                                style="background: #f0f8ff; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: left;">
+                                <p style="margin-bottom: 10px; font-weight: bold;">🎮 遊び方</p>
+                                <p style="margin-bottom: 10px;">「注文」ボタンを連打</p>
+                                <p style="margin-bottom: 10px;">感謝の現渡で株主優待をGET</p>
+                                <p style="margin-bottom: 0;">そして絶頂</p>
+                            </div>
+
+                            <!-- リンクボタンエリア -->
+                            <div style="display: flex; flex-direction: column; gap: 10px;">
+                                <button class="settings-link-btn" id="settings-marshmallow-link"
+                                    style="background: #e91e63; color: white; border: none; padding: 12px; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer;">
+                                    🩷 マスマロを送る 🩷
+                                </button>
+
+                                <button class="settings-link-btn" id="settings-tweet-link"
+                                    style="background: #1da1f2; color: white; border: none; padding: 12px; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer;">
+                                    🐦 感想をトゥイート
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2355,7 +2407,7 @@
             userName: 'ともちぃさん',
             userId: 'tomochi-fun',
             cash: 10000000,
-            premiumCoin: 450000,
+            premiumCoin: 1000,
             rice: 0,           // お米システム
             favo: 0,           // 新規追加: はぁとシステム
             voting: 0,        // 議決権の保有量
@@ -2411,6 +2463,23 @@
             '⚠️取引時間外です。'
         ];
 
+        // ========== 惜しい失敗メッセージバリエーション（新規追加） ==========
+        const closeMessages = [
+            '見えたけど取れませんでした！',
+            '注文画面まではいけました！',
+            'マック流します^^',
+            'robothome放流します！🤥',
+            '機会を頂きありがとうございました！'
+        ];
+
+        /**
+         * ランダムな惜しい失敗メッセージを取得
+         * @returns {string} ランダム選択された惜しい失敗メッセージ
+         */
+        function getRandomCloseMessage() {
+            return closeMessages[Math.floor(Math.random() * closeMessages.length)];
+        }
+
         /**
          * ランダムな失敗メッセージを取得
          * @returns {string} ランダム選択されたエラーメッセージ
@@ -2429,8 +2498,8 @@
             getRate: 3.4,
             loadRate: 430,
             fireRate: 24,
-            serverHP: 20000,
-            maxServerHP: 20000,
+            serverHP: 2000,  // サーバー初期HP
+            maxServerHP: 3000,  // サーバーMAXのHP
             clickDamage: 1,
             isServerDown: false,
             isPreGacha: false,
@@ -2802,6 +2871,28 @@
                 return false;
             }
         }
+        // 設定タブのリンクボタン処理を追加
+        const settingsMarshmallowLink = document.getElementById('settings-marshmallow-link');
+        const settingsTweetLink = document.getElementById('settings-tweet-link');
+
+        if (settingsMarshmallowLink) {
+            settingsMarshmallowLink.addEventListener('click', function () {
+                window.open('https://marshmallow-qa.com/hdl55x2xyxkuz0q?t=OGltiZ&utm_medium=url_text&utm_source=promotion', '_blank');
+            });
+        }
+
+        if (settingsTweetLink) {
+            settingsTweetLink.addEventListener('click', function () {
+                const gameUrl = window.location.href;
+                const tweetText = `🎮優待クロスシミュレーションゲーム🎮
+あなたも挑戦してみませんか？（ここに広告を春）
+
+${gameUrl}
+
+#優待ワロス #株主優待 #ドンキの当選コード下さい #ともちぃ大天使`; const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
+                window.open(tweetUrl, '_blank');
+            });
+        }
 
         // ========== 初期化 ==========
         async function init() {
@@ -2857,13 +2948,6 @@
             const marshmallowLink = document.getElementById('marshmallow-link');
             const botToggle = document.getElementById('bot-toggle');
 
-            // デバッグボタン
-            const debugIncrease = document.getElementById('debug-increase');
-            const debugDecrease = document.getElementById('debug-decrease');
-            const debugReset = document.getElementById('debug-reset');
-            const debugVoting = document.getElementById('debug-voting');
-            const debugOrders = document.getElementById('debug-orders');
-
             if (startButton) {
                 startButton.addEventListener('click', handleGameStart);
             }
@@ -2891,56 +2975,6 @@
                     botToggle.className = gameState.botEnabled ? 'bot-toggle-btn active' : 'bot-toggle-btn';
                 });
             }
-
-            // デバッグボタンイベント
-            if (debugIncrease) {
-                debugIncrease.addEventListener('click', function () {
-                    debugState.positionAmount += 10000000;
-                    if (debugState.positionAmount < 0) {
-                        debugState.positionAmount = 0;
-                    }
-                    updateDisplay();
-                });
-            }
-
-            if (debugDecrease) {
-                debugDecrease.addEventListener('click', function () {
-                    debugState.positionAmount -= 10000000;
-                    if (debugState.positionAmount < 0) {
-                        debugState.positionAmount = 0;
-                    }
-                    updateDisplay();
-                });
-            }
-
-            if (debugReset) {
-                debugReset.addEventListener('click', function () {
-                    debugState.positionAmount = debugState.initialPositionAmount;
-                    debugState.serverHP = debugState.maxServerHP;
-                    debugState.isServerDown = false;
-                    debugState.isPreGacha = false;
-                    gameState.inventory = {}; // インベントリもリセット
-                    gameState.rice = 0;       // お米もリセット
-                    gameState.favo = 0;       // はぁともリセット
-                    gameState.voting = 0;   // フォロワーもリセット
-                    updateServerDownUI();
-                    updateDisplay();
-                });
-            }// debugReset の処理の後に追加
-            if (debugVoting) {
-                debugVoting.addEventListener('click', function () {
-                    gameState.voting += 100;
-                    updateDisplay();
-                });
-            }
-            if (debugOrders) {
-                debugOrders.addEventListener('click', function () {
-                    debugState.orders += 10;
-                    debugState.positionAmount += 3000000; // 30万円×10 = 300万円
-                    updateDisplay();
-                });
-            }
-
 
             // 情報タブ切り替え
             document.querySelectorAll('.info-tab-button').forEach(button => {
@@ -3072,26 +3106,32 @@
                 showResultPopup(true);
             } else {
                 // 外れ処理
-                showResultPopup(false);
+                const isCloseCall = Math.random() < 0.05; // 5%の確率でレアなハズレ
+                showResultPopup(false, isCloseCall);
             }
 
             // 表示を即座に更新
             updateDisplay();
         }
 
-        function showResultPopup(isSuccess) {
+        function showResultPopup(isSuccess, isCloseCall = false) {
             const centerArea = document.getElementById('center-area');
             if (!centerArea) return;
 
             // ポップアップ要素を作成
             const popup = document.createElement('div');
-            popup.className = `result-popup ${isSuccess ? 'success' : 'failure'}`;
 
             // メッセージ設定
             if (isSuccess) {
+                popup.className = 'result-popup success';
                 popup.textContent = '新規売り注文を受け付けました';
                 popup.style.animationDuration = '2.5s'; // 成功時2.5秒
+            } else if (isCloseCall) {
+                popup.className = 'result-popup close';
+                popup.textContent = getRandomCloseMessage();
+                popup.style.animationDuration = '4.0s'; // 惜しい失敗時4秒
             } else {
+                popup.className = 'result-popup failure';
                 popup.textContent = getRandomFailureMessage();
                 popup.style.animationDuration = '1.0s'; // 失敗時1.0秒
             }
@@ -3117,7 +3157,7 @@
             popup.style.visibility = 'visible';
 
             // アニメーション終了後に削除
-            const duration = isSuccess ? 2000 : 500; // 成功2秒・失敗0.5秒
+            const duration = isSuccess ? 2000 : isCloseCall ? 3500 : 500; // 成功2秒・惜しい失敗3.5秒・通常失敗0.5秒
             setTimeout(() => {
                 if (popup.parentNode) {
                     popup.parentNode.removeChild(popup);
@@ -3142,10 +3182,20 @@
             debugState.isServerDown = true;
             debugState.orders = 0;
             debugState.positionAmount = 0;
-            updateServerDownUI();
-            // サーバー倒壊エラーポップアップ表示
-            showErrorPopup("🔥サーバー倒壊🔥", "全ての在庫を失いました。<br>謝罪ボタンで復旧してください。");
 
+            // story_kadaiアイテムを1個付与
+            if (!gameState.inventory) {
+                gameState.inventory = {};
+            }
+            if (gameState.inventory['story_kadai']) {
+                gameState.inventory['story_kadai'] += 1;
+            } else {
+                gameState.inventory['story_kadai'] = 1;
+            }
+
+            updateServerDownUI();
+            updateDisplay();
+            showServerDownPopup("🔥サーバー倒壊🔥", "過大アクセスを検知いたしました。<br>お客様の取引を制限いたします。");
         }
 
         function exitServerDownMode() {
@@ -4847,16 +4897,42 @@
                 type: "error"
             });
         }
-        // 横転用エラーポップアップ（クリック無効 + 2秒強制表示）
+        // 横転用エラーポップアップ（Twitterシェア付き）
         function showRolloverPopup(title, message) {
+            // 横転時の注文件数を保存
+            window.overturnStock = debugState.orders;
+
             showUniversalPopup({
                 title: title,
-                content: message,
+                customHTML: `
+            <div class="universal-popup-content">${message}</div>
+            <button class="twitter-btn" onclick="shareOverturn()">
+                <span class="twitter-icon">🐦💨💩</span> 横転結果をトゥイート
+            </button>
+        `,
                 type: "error",
-                autoClose: 2000,    // 2秒後に自動で閉じる
-                disableClick: true  // クリック無効
+                disableClick: false  // クリック有効（ツイートボタンのため）
             });
         }
+
+        // サーバー倒壊用エラーポップアップ（Twitterシェア付き）
+        function showServerDownPopup(title, message) {
+            // サーバー倒壊時の総アクセス数を保存
+            window.serverDownAccess = gameState.totalClicks;
+
+            showUniversalPopup({
+                title: title,
+                customHTML: `
+            <div class="universal-popup-content">${message}</div>
+            <button class="twitter-btn" onclick="shareServerDown()">
+                <span class="twitter-icon">🐦💨💩</span> サーバー倒壊をトゥイート
+            </button>
+        `,
+                type: "error",
+                disableClick: false
+            });
+        }
+
 
         // ミッション完了ポップアップ
         function showMissionCompletePopup(missionName, reward) {
@@ -4906,12 +4982,12 @@
             // 横転フラグ設定
             debugState.isRollover = true;
 
+            // ★ポップアップ表示を先に実行（注文件数をリセットする前に）
+            showRolloverPopup("横転しました！", `${lostOrders}件の注文が失効しました！`);
+
             // 注文・建玉リセット
             debugState.orders = 0;
             debugState.positionAmount = 0;
-
-            // 横転ポップアップ表示
-            showRolloverPopup("横転しました！", `${lostOrders}件の注文が失効しました！`);
 
             // 表示更新
             updateDisplay();
@@ -4979,7 +5055,7 @@
 
         // ID接頭辞からカテゴリを判定
         function getItemCategory(itemId) {
-            if (itemId.startsWith('quo_')) return 'QUO';
+            if (itemId.startsWith('quo_') || itemId.startsWith('kinken_')) return '金券';
             if (itemId.startsWith('yutai_')) return '優待';
             if (itemId.startsWith('fruit_') || itemId.startsWith('food_')) return '食糧';
             if (itemId.startsWith('cosm_') || itemId.startsWith('hoge_')) return '雑品';
@@ -5097,6 +5173,63 @@
             // Twemoji変換
             convertEmojis(detailCard);
         }
+
+        // ========== Twitterシェア機能（追加） ==========
+
+        // 横転時のTwitterシェア機能
+        function shareOverturn() {
+            const stockCount = window.overturnStock || 0;
+            const tweetText = createOverturnTweet(stockCount);
+            const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
+
+            // 新しいウィンドウでTwitterを開く
+            window.open(twitterUrl, 'twitter-share', 'width=550,height=400,scrollbars=yes,resizable=yes');
+
+            console.log('横転ツイート共有:', tweetText);
+        }
+        // サーバー倒壊時のTwitterシェア機能
+        function shareServerDown() {
+            const accessCount = window.serverDownAccess || 0;
+            const tweetText = createServerDownTweet(accessCount);
+            const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
+
+            // 新しいウィンドウでTwitterを開く
+            window.open(twitterUrl, 'twitter-share', 'width=550,height=400,scrollbars=yes,resizable=yes');
+
+            console.log('サーバー倒壊ツイート共有:', tweetText);
+        }
+
+        // サーバー倒壊ツイート文を生成
+        function createServerDownTweet(accessCount) {
+            const gameUrl = window.location.href;
+            const text = `${accessCount.toLocaleString()}回アクセスして悪辣な証券会社のサーバーを倒壊させました👍🔥（在庫出さない方が悪い）（正論）
+
+🎮優待クロスシミュレーションゲーム🎮
+あなたも挑戦してみませんか？（ここに広告を春）
+
+${gameUrl}
+
+#優待ワロス #株主優待 #ドンキの当選コード下さい #ともちぃ大天使`;
+
+            return text;
+        }
+
+
+        // 横転ツイート文を生成
+        function createOverturnTweet(stockCount) {
+            const gameUrl = window.location.href;
+            const text = `${stockCount}件の在庫を抱えて横転しました！（ワロタ）🚚💥
+
+🎮優待クロスシミュレーションゲーム🎮
+あなたも挑戦してみませんか？（ここに広告を春）
+
+${gameUrl}
+
+#優待ワロス #株主優待 #ドンキの当選コード下さい #ともちぃ大天使`;
+
+            return text;
+        }
+
 
         // ========== アプリ起動 ==========
         document.addEventListener('DOMContentLoaded', init);

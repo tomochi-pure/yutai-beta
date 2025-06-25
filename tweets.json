@@ -70,7 +70,7 @@
       "id": "c026",
       "char": "kagi",
       "difficulty": 3,
-      "content": "優待クロスの極意はたった２つです😌✋\n・他人と比較しない\n・経費を削る努力よりゴハをしない努力をしろ",
+      "content": "優待クロスの極意はたった２つです😌✋\n・他人と比較しない\n・経費を削る努力よりゴハをしない努力をしろ\nTLでドヤを見ると羨ま🤥しくなるけど、それで自分が損🤥をするわけではない🤥\n資金が全員同じ🤥なら経費を削る競争に意義はある🤥が、そもそも資金力が違う🤥のでそこを競う意味はない🤥🤥と私は思っています🤥\n（何言ってんだこいつ）",
       "requirements": {},
       "rewards": {
         "favo": 302
@@ -191,7 +191,7 @@
       "id": "c036",
       "char": "kagi",
       "difficulty": 2,
-      "content": "某パビリオンにて\nスタッフ側で「県知事やん！！」って言葉聞こえたけど、幻聴だと思いたい……",
+      "content": "某パビリオンにて\nスタッフ側で「県知事やん！！」って言葉聞こえたけど、幻聴だと思いたい( ｰ`дｰ´)ｷﾘｯ",
       "requirements": {},
       "rewards": {
         "favo": 32
@@ -211,7 +211,7 @@
       "id": "c038",
       "char": "kagi",
       "difficulty": 1,
-      "content": "年越し蕎麦で破産です🥺",
+      "content": "ヨッメが9300円もする年越し蕎麦買ってきて破産🍛",
       "requirements": {
         "cash": 9300
       },
@@ -381,7 +381,87 @@
       "id": "c054",
       "char": "kagi",
       "difficulty": 1,
-      "content": "ワイはこの国と心中したいんや\nはよ出生率0を拝ませてくれ",
+      "content": "ワイはこの国と心中したいんや🔴\nはよ出生率0を拝ませてくれ",
+      "requirements": {},
+      "rewards": {
+        "favo": 1
+      }
+    },
+    {
+      "id": "c055",
+      "char": "kagi",
+      "difficulty": 1,
+      "content": "DMでよく問い合わせがくるんですが（聞いてない定期）（揉みあがる承認欲求）",
+      "requirements": {},
+      "rewards": {
+        "favo": 1
+      }
+    },
+    {
+      "id": "c056",
+      "char": "kagi",
+      "difficulty": 1,
+      "content": "bot作る技術ないだけのゴミがbot敵視してるの草",
+      "requirements": {},
+      "rewards": {
+        "favo": 20
+      }
+    },
+    {
+      "id": "c057",
+      "char": "kagi",
+      "difficulty": 2,
+      "content": "まだ優待ワロスやっ天皇ｗｗｗｗｗｗｗｗｗｗｗｗｗｗ崩御ｗｗｗｗｗｗｗｗｗｗｗ（不謹慎）",
+      "requirements": {},
+      "rewards": {
+        "favo": 30
+      }
+    },
+    {
+      "id": "c058",
+      "char": "kagi",
+      "difficulty": 1,
+      "content": "UQ取ってまで必死乙優待ワロス勢ほんま人生楽しそう",
+      "requirements": {},
+      "rewards": {
+        "favo": 20
+      }
+    },
+    {
+      "id": "c059",
+      "char": "kagi",
+      "difficulty": 1,
+      "content": "【パワーワード】「創業者による逆日歩狩り🏹」",
+      "requirements": {},
+      "rewards": {
+        "favo": 20
+      }
+    },
+    {
+      "id": "c060",
+      "char": "kagi",
+      "difficulty": 1,
+      "content": "クロスの達人（シンプルな罵倒）",
+      "requirements": {},
+      "rewards": {
+        "favo": 5
+      }
+    },
+    {
+      "id": "c061",
+      "char": "kagi",
+      "difficulty": 1,
+      "content": "優待クロスやってそう（シンプルな罵倒）",
+      "requirements": {},
+      "rewards": {
+        "favo": 5
+      }
+    },
+    {
+      "id": "c062",
+      "char": "kagi",
+      "difficulty": 1,
+      "content": "幕張さんという方が何度も拾っては撒いてくれます！！ｗｗｗ",
       "requirements": {},
       "rewards": {
         "favo": 1
